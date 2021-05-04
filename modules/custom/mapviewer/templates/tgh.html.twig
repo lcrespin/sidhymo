@@ -1,0 +1,95 @@
+{# mapviewer/templates/carhyce.html.twig #}
+<div class="modal-content h-100 w-100">
+    <div class="modal-header">
+        <h5 class="modal-title" id="fiche_title">
+            {{ title }}
+        </h5>
+        <button aria-label="Fermer" class="close" data-dismiss="modal" type="button">
+            <span aria-hidden="true">
+                ×
+            </span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="fiche">
+            <div class="row">
+                <fieldset class="localinfo">
+                    <legend>
+                        Informations de localisation
+                    </legend>
+                    {{ localinfo }}
+                </fieldset>
+            </div>
+            <div class="row">
+                <ul class="nav nav-tabs nav-fill" id="tabs_operations" role="tablist">
+                    <li class="nav-item">
+                        <a aria-controls="op1" aria-selected="true" class="nav-link active" data-toggle="tab" href="#op1" id="op1-tab" role="tab">
+                            Données 2017 - dernière MAJ
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a aria-controls="op2" aria-selected="false" class="nav-link disabled" data-toggle="tab" href="#op2" id="op2-tab" role="tab">
+                            Données précédentes (non dispo à ce jour)
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-content" id="operation_information">
+                <div aria-labelledby="op1-tab" class="tab-pane fade show active" id="op1" role="tabpanel">
+                    <div class="row">
+                        <ul class="nav nav-tabs nav-fill" id="tabsop1" role="tablist">
+                            <li class="nav-item">
+                                <a aria-controls="descriptif" aria-selected="true" class="nav-link active" data-toggle="tab" href="#descriptif" id="descriptif-tab" role="tab">
+                                    Descriptif du tronçon
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a aria-controls="indicateurs" aria-selected="false" class="nav-link" data-toggle="tab" href="#indicateurs" id="indicateurs-tab" role="tab">
+                                    Indicateurs
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a aria-controls="usra" aria-selected="false" class="nav-link" data-toggle="tab" href="#usra" id="usra-tab" role="tab">
+                                    USRA rattachées
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+                    <div class="row tab-content" id="tabinformations">
+                        <div aria-labelledby="descriptif-tab" class="tab-pane fade show active" id="descriptif" role="tabpanel">
+							<div class="container-fluid">
+							  <div class="row justify-content-md-center">
+								{{ descriptif }}
+							  </div>
+							</div>
+                        </div>
+                        <div aria-labelledby="indicateurs-tab" class="tab-pane fade" id="indicateurs" role="tabpanel">
+                        	<div class="container-fluid">
+                        	  <div class="row justify-content-md-center">
+								{{ indicateurs }}
+                        	  </div>
+                        	</div>
+                        </div>
+                        <div aria-labelledby="usra-tab" class="tab-pane fade" id="usra" role="tabpanel">
+                        	<div class="container-fluid">
+								<div class="row justify-content-md-center">
+									<h5>USRA rattachée à ce tronçon</h5>
+								</div>
+								<div class="row justify-content-md-center">
+									{% if usra is not empty %}
+										{{ usra }}
+									{% else %}
+										<p>Aucune USRA n'est rattachée à ce tronçon</p>
+									{% endif %}
+								</div>
+                        	</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

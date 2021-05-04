@@ -1,0 +1,93 @@
+{# mapviewer/templates/carhyce.html.twig #}
+  <div class="modal-header">
+    <h5 class="modal-title" id="fiche_title">{{ title }}</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+        <div class="fiche">
+			<div class="row">
+				<fieldset class="localinfo">
+				    <legend>Informations de localisation</legend>
+					{{ localinfo }}
+				</fieldset>
+			</div>
+
+	    	<div class="row">
+	    	    <ul class="nav nav-tabs nav-fill" id="tabs_operations" role="tablist">
+	    	        <li class="nav-item">
+	    	            <a aria-controls="op1" aria-selected="true" class="nav-link active" data-toggle="tab" href="#op1" id="op1-tab" role="tab">
+	    					Données 2017 - dernière MAJ
+	    	            </a>
+	    	        </li>
+	    	        <li class="nav-item">
+	    	            <a aria-controls="op2" aria-selected="false" class="nav-link disabled" data-toggle="tab" href="#op2" id="op2-tab" role="tab">
+	    	            	Données précédentes (non dispo à ce jour)
+	    	            </a>
+	    	        </li>
+	    	    </ul>
+	    	</div>
+
+	    	<div class="tab-content" id="operation_information">
+	    	    <div aria-labelledby="op1-tab" class="tab-pane fade show active" id="op1" role="tabpanel">
+	    			<div class="row">
+	    			    <ul class="nav nav-tabs nav-fill" id="tabsop1" role="tablist">
+	    			        <li class="nav-item">
+	    			            <a aria-controls="caracteristiques" aria-selected="true" class="nav-link active" data-toggle="tab" href="#caracteristiques" id="caracteristiques-tab" role="tab">
+	    			                Caractéristiques
+	    			            </a>
+	    			        </li>
+
+	    			        <li class="nav-item">
+	    			            <a aria-controls="alteration" aria-selected="false" class="nav-link" data-toggle="tab" href="#alteration" id="alteration-tab" role="tab">
+	    			                Risques d’altération
+	    			            </a>
+	    			        </li>
+	    	    	        {% if classe_alteration is defined and classe_alteration is not null %}
+	        	                <li class="nav-item">
+	        	                    <a aria-controls="classe_alteration" aria-selected="true" class="nav-link" data-toggle="tab" href="#classe_alteration" id="classe_alteration-tab" role="tab">
+	    								Classes d'altération
+	        	                    </a>
+	        	                </li>
+	    					{% endif %}
+	    	    	        {% if elements_qualite is defined and elements_qualite is not null %}
+	    	    	        	<li class="nav-item">
+	    	    	        	    <a aria-controls="elements_qualite" aria-selected="false" class="nav-link" data-toggle="tab" href="#elements_qualite" id="elements_qualite-tab" role="tab">
+	    	    	        	    	Eléments de qualité
+	    	    	        	    </a>
+	    	    	        	</li>
+	    					{% endif %}
+	    			    </ul>
+	    			</div>
+	    			<div class="row tab-content" id="tabinformations">
+	    			    <div aria-labelledby="caracteristiques-tab" class="tab-pane fade show active" id="caracteristiques" role="tabpanel">
+	    					{{ caracteristiques }}
+
+	    			    </div>
+
+	    			    <div aria-labelledby="alteration-tab" class="tab-pane fade" id="alteration" role="tabpanel">
+	    			    	{{ alteration }}
+	    			    </div>
+
+    	    	        {% if classe_alteration is defined and classe_alteration is not null %}	
+	    			        <div aria-labelledby="classe_alteration-tab" class="tab-pane fade" id="classe_alteration" role="tabpanel">
+	    			    		{{ classe_alteration }}
+	    			        </div>
+    					{% endif %}
+
+    					{% if elements_qualite is defined and elements_qualite is not null %}
+	    			        <div aria-labelledby="elements_qualite-tab" class="tab-pane fade" id="elements_qualite" role="tabpanel">
+	    			        	{{ elements_qualite }}
+	    			        </div>
+    			        {% endif %}
+
+	    			</div>
+	    	    </div>
+
+	    	    <div aria-labelledby="op2-tab" class="tab-pane fade" id="op2" role="tabpanel">
+	    	        <p></p>
+	    	    </div>
+	    	</div>
+        </div>
+  </div>

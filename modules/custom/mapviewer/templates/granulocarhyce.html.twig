@@ -1,0 +1,138 @@
+<div class="container-fluid">
+    <div class="row justify-content-md-center">
+        <div class="graphpanel">
+            <div id="radier_{{ idoperation }}">
+            </div>
+            <div class="legendied">
+                D’après Gob F., Thommeret N., Bilodeau C., Tamisier V., Duval E., Legentil C., Grancher D., Raufaste S., Baudoin J-M.
+                <br/>
+                et Kreutzenberger K., Interface d’exploitation des données Carhyce [en ligne], Laboratoire de Géographie Physique – AFB :
+                <a href="http://lgp.cnrs.fr/carhyce">
+                    IED CARHYCE
+                </a>
+            </div>
+        </div>
+        <div class="graphpanel">
+            <div id="triangle_{{ idoperation }}">
+
+            </div>
+            <div class="legendied">
+                D’après Gob F., Thommeret N., Bilodeau C., Tamisier V., Duval E., Legentil C., Grancher D., Raufaste S., Baudoin J-M.
+                <br/>
+                et Kreutzenberger K., Interface d’exploitation des données Carhyce [en ligne], Laboratoire de Géographie Physique – AFB :
+                <a href="http://lgp.cnrs.fr/carhyce">
+                    IED CARHYCE
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+{% block javascripts %}
+<script>
+  layout_granulo = {
+    font: {size: 16}, 
+    title: 'Courbe granulométrique cumulative (radier)', 
+    xaxis: {
+      type: 'linear', 
+      // range: [0, Max], 
+      ticks: 'outside', 
+      title: 'Mesure de l\'axe b de 100 particules échantillonnées aléatoirement sur un radier (mm)', 
+      nticks: 5, 
+      showline: true, 
+      tickfont: {size: 16}, 
+      autorange: true, 
+      gridcolor: 'rgb(204, 204, 204)', 
+      gridwidth: 2, 
+      showticklabels: true
+    }, 
+    yaxis: {
+      type: 'linear', 
+      ticks: 'outside', 
+      title: 'Effectifs cumulés croissants (%)', 
+      nticks: 5, 
+      showline: true, 
+      tickfont: {size: 16}, 
+      autorange: true, 
+      gridcolor: 'rgb(204, 204, 204)', 
+      gridwidth: 2, 
+      fixedrange: true, 
+      showticklabels: true
+    }, 
+    width: 1200,
+    height: 800
+  };
+
+  var data_granulo = {{ json_radier |  json_encode(constant('JSON_PRETTY_PRINT')) | raw }}  
+  Plotly.plot('radier_{{ idoperation }}', {data: data_granulo, layout: layout_granulo});
+
+
+  /*
+  - cours d’eau « Abatesco »
+  - station CARHYCE 06222100
+  - opération 2020
+  - Année 2015
+  - % Bloc rochers = 0,794 %
+  - % Graviers - cailloux = 60,317 %
+  - % fine = 38,889 %
+  */
+  var json_triangulaire = {{ json_triangulaire |  json_encode(constant('JSON_PRETTY_PRINT')) | raw }}  
+
+  var rawData = [
+      {bloc:json_triangulaire.prct_sup128, fine:json_triangulaire.prct_inf2, gravier:json_triangulaire.prct_2a128, label:'Opération'},
+  ];
+
+  // console.log(rawData)
+
+  Plotly.plot('triangle_{{ idoperation }}', [{
+      type: 'scatterternary',
+      mode: 'markers',
+      a: rawData.map(function(d) { return d.bloc; }),
+      b: rawData.map(function(d) { return d.fine; }),
+      c: rawData.map(function(d) { return d.gravier; }),
+      text: rawData.map(function(d) { return d.label; }),
+      marker: {
+          symbol: 100,
+          color: '#DB7365',
+          size: 14,
+          line: { width: 2 }
+      },
+    }],
+    {
+      ternary: {
+          sum: 100,
+          aaxis: makeAxis('A: % Blocs-rochers (>128mm)', 0, 'rgba(51, 255, 79,0.7)'), 
+          baxis: makeAxis('<br>B: % Fines (<2mm)', 0, 'rgba(51, 255, 79,0.7)'),
+          caxis: makeAxis('<br>C: % Gravier-<br>cailloux (2-128mm)', 0, 'rgba(51, 255, 79,0.7)'),
+          bgcolor: '#fff1e0'
+      },
+      annotations: [{
+        showarrow: false,
+        text: 'Diagramme triangulaire',
+          x: 0.5,
+          y: 1.3,
+          font: { size: 15 }
+      }],
+      paper_bgcolor: '#fff1e0',
+    }, 
+    {showSendToCloud: true}
+  );
+
+  function makeAxis(title, tickangle, color) {
+      return {
+        title: title,
+        titlefont: { size: 16 },
+        tickangle: tickangle,
+        tickfont: { size: 12 },
+        //tickcolor: 'rgba(0,0,0,0)',
+        tickcolor: color,
+        ticklen: 5,
+        showline: true,
+        showgrid: true
+      };
+  }
+
+</script>
+
+{% endblock %}

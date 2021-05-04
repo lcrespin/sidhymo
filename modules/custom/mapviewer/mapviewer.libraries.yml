@@ -1,0 +1,151 @@
+## POUR LA CARTE
+openlayers:
+  version : 6.3.1
+  css:
+    theme:
+      # https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/css/ol.css: {}
+      js/lib/ol.css: {}  
+  js:
+    # https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js: {type: external}
+    js/lib/ol.js: {} 
+
+layerswitcher:
+  version : 3.6.0
+  css: 
+    theme: 
+      # https://unpkg.com/ol-layerswitcher@3.6.0/src/ol-layerswitcher.css: {}
+      js/lib/ol-layerswitcher.css: {} 
+  js:
+    # https://unpkg.com/ol-layerswitcher@3.6.0: {type: external}
+    js/lib/ol-layerswitcher.js: {} 
+
+    # <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL,Object.assign"></script>
+     
+ol-ext:
+  version: 1.0
+  css:
+    theme:
+      https://cdn.rawgit.com/Viglino/ol-ext/master/dist/ol-ext.min.css: {}
+  js:
+    https://cdn.rawgit.com/Viglino/ol-ext/master/dist/ol-ext.min.js: { type: external}
+
+
+## POUR LA RECHERCHER
+select2:
+  version : 4.1.0
+  css:
+    theme:
+      # https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css: {}
+      # css/select2.css: {}
+      # https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css: {}
+      js/node_modules/select2/dist/css/select2.min.css: {}
+  js:
+    # https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js : {type: external}
+    js/node_modules/select2/dist/js/select2.min.js : {}
+
+select2_maximize:
+  version: 2.0
+  js:
+    js/node_modules/maximize-select2-height/maximize-select2-height.min.js : {}
+
+## POUR LES RESULTATS
+jquery_ui:
+  version: 1.12.1
+  css:
+    theme:
+      # https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css: {}
+      js/lib/jquery-ui.min.css: {}
+  js:
+    # https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js: {type: external}
+    js/lib/jquery-ui.min.js: {} 
+
+popper:
+  version: 1.16.1
+  js:
+    https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js: {type: external}
+    # js/lib/jquery-ui.min.js: {} 
+
+
+tablesorter:
+  version: 2.31.3
+  css:
+    theme:
+      # https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/css/theme.blue.min.css: {}
+      js/lib/theme.blue.min.css: {}
+  js:
+    # https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js: {type: external}
+    js/lib/jquery.tablesorter.min.js: {}
+
+tablesorter_widget:
+  version : 2.31.3
+  js:
+    # https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.widgets.min.js: {type: external}
+    js/lib/jquery.tablesorter.widgets.min.js: {}
+
+## POUR LES FICHES
+plotly:
+  version: 1.0
+  js:
+    # https://cdn.plot.ly/plotly-latest.min.js: {type: external}
+    js/lib/plotly-latest.min.js: {}
+
+anychart-core:
+  version: 8.7.0
+  js: 
+    # https://cdn.anychart.com/releases/8.7.0/js/anychart-core.min.js: {type: external}
+    js/lib/anychart-core.min.js: {}
+
+anychart-radar:
+  version: 8.7.0
+  js: 
+    # https://cdn.anychart.com/releases/8.7.0/js/anychart-radar.min.js: {type: external}
+    js/lib/anychart-radar.min.js: {}
+
+
+## FICHIER CUSTOM
+mapviewer_map:
+  version : 1.0
+  js:
+    js/custom_modules/mapviewer_map.js: {}
+
+mapviewer_searchbar:
+  version : 1.0
+  js:
+    js/custom_modules/mapviewer_searchbar.js: {}
+
+mapviewer_resultable:
+  version: 1.0
+  js:
+    js/custom_modules/mapviewer_resultable.js: {}  
+
+mapviewer_fichehandler:
+  version: 1.0
+  js:
+    js/custom_modules/mapviewer_fichehandler.js: {}  
+
+## MAIN
+main:
+  version: 1.0
+  css:
+    theme:
+      css/mapviewer.css: {}
+  js:
+    js/mapviewer_main.js: {}
+  dependencies:
+    - core/jquery
+    - mapviewer/openlayers    
+    - mapviewer/layerswitcher
+    # - mapviewer/ol-ext
+    - mapviewer/select2
+    - mapviewer/select2_maximize
+    - mapviewer/jquery_ui 
+    # - mapviewer/popper
+    - mapviewer/tablesorter
+    - mapviewer/tablesorter_widget
+    - mapviewer/plotly
+    - mapviewer/anychart-core
+    - mapviewer/anychart-radar
+    - mapviewer/mapviewer_map
+    - mapviewer/mapviewer_resultable
+    - mapviewer/mapviewer_searchbar
+    - mapviewer/mapviewer_fichehandler

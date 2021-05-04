@@ -1,0 +1,57 @@
+mapviewer.content:
+  path: '/cartographie'
+  defaults:
+    _controller: '\Drupal\mapviewer\Controller\MapviewerController::getViewer'
+    _title: ' '
+  requirements:
+    _permission: 'access content'
+
+mapviewer.searchemprise:
+  path: '/searchemprise'
+  defaults:
+    _controller: '\Drupal\mapviewer\Controller\MapviewerController::searchEmprise'
+    _title: ' '
+  requirements:
+    _permission: 'access content'
+    _format: 'json'
+
+mapviewer.searchobjet:
+  path: '/searchobjet'
+  defaults:
+    _controller: '\Drupal\mapviewer\Controller\MapviewerController::searchObjet'
+    _title: ' '
+  requirements:
+    _permission: 'access content'
+    _format: 'json'
+
+mapviewer.getfiche:
+  path: '/getfiche'
+  defaults:
+    _controller: '\Drupal\mapviewer\Controller\MapviewerController::getFiche'
+    _title: ''
+  requirements:
+    _permission: 'access content'
+
+mapviewer.getcarhycegeom:
+  path: '/getcarhycegeom'
+  defaults:
+    _controller: '\Drupal\mapviewer\Controller\MapviewerController::getCarhyceGeom'
+    _title: ''
+  requirements:
+    _permission: 'access content'
+
+mapviewer.getcarhycegranulo:
+  path: '/getcarhycegranulo'
+  defaults:
+    _controller: '\Drupal\mapviewer\Controller\MapviewerController::getCarhyceGranulo'
+    _title: ''
+  requirements:
+    _permission: 'access content'
+
+mapviewer.getcarhycemodele:
+  path: '/getcarhycemodele'
+  defaults:
+    _controller: '\Drupal\mapviewer\Controller\MapviewerController::getCarhyceModele'
+    _title: ''
+  requirements:
+    _permission: 'access content'

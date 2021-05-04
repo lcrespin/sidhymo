@@ -1,0 +1,69 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function mapviewer_theme($existing, $type, $theme, $path)
+{
+    return [
+        'cartographie'   => [
+            'variables' => ['searchbox' => null],
+        ],
+        'stcarhyce'      => [
+            'variables' => [
+                'title'      => null,
+                'localinfo'  => null,
+                'operations' => array(),
+            ],
+        ],
+        'geomcarhyce'    => [
+            'variables' => [
+                'idoperation'      => null,
+                'json_transects'   => null,
+                'json_profil'      => null,
+                'json_transect2D'  => null,
+                'pente_ligne_deau' => null,
+            ],
+        ],
+        'granulocarhyce' => [
+            'variables' => [
+                'idoperation'       => null,
+                'json_radier'       => null,
+                'json_triangulaire' => null,
+            ],
+        ],
+        'modelecarhyce'  => [
+            'variables' => [
+                'idoperation' => null,
+                'json_modele' => null,
+            ],
+        ],
+        'roe'            => [
+            'variables' => [
+                'title'     => null,
+                'localinfo' => null,
+                'roe'       => null,
+                'roeice'    => null,
+            ],
+        ],
+        'tgh'            => [
+            'variables' => [
+                'title'       => null,
+                'localinfo'   => null,
+                'descriptif'  => null,
+                'indicateurs' => null,
+                'usra'        => null,
+            ],
+        ],
+        'usra'           => [
+            'variables' => [
+                'title'             => null,
+                'localinfo'         => null,
+                'caracteristiques'  => null,
+                'alteration'        => null,
+                'classe_alteration' => null,
+                'elements_qualite'  => null
+            ],
+        ],
+    ];
+}

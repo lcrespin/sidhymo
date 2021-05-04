@@ -1,0 +1,96 @@
+{# mapviewer/templates/carhyce.html.twig #}
+<div class="modal-content h-100 w-100">
+    <div class="modal-header">
+        <h5 class="modal-title" id="fiche_title">
+            {{ title }}
+        </h5>
+        <button aria-label="Fermer" class="close" data-dismiss="modal" type="button">
+            <span aria-hidden="true">
+                ×
+            </span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="fiche">
+            <div class="row">
+                <fieldset class="localinfo">
+                    <legend>
+                        Informations de localisation
+                    </legend>
+                    {{ localinfo }}
+                </fieldset>
+            </div>
+            <div class="row">
+                <ul class="nav nav-tabs nav-fill" id="tabs_operations" role="tablist">
+                    {% for idop, dateop in operations %}
+                    <li class="nav-item">
+                        <a aria-controls="op-{{idop}}" aria-selected="false" class="nav-link {% if loop.first %} active {% endif %}" data-toggle="tab" href="#op-{{idop}}" id="op-{{idop}}-tab" role="tab">
+                            Opération du {{dateop}}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="tab-content" id="operation_information">
+                {% for idop, dateop in operations %}
+                <div aria-labelledby="op-{{idop}}-tab" class="tab-pane fade {% if loop.first %} show active {% endif %}" id="op-{{idop}}" role="tabpanel">
+                    <div class="row">
+                        <ul class="nav nav-tabs nav-fill" id="tabs-{{idop}}" role="tablist">
+                            <li class="nav-item">
+                                <a aria-controls="geom-{{idop}}" aria-selected="true" class="nav-link {% if loop.first %} show active {% endif %}" data-toggle="tab" href="#geom-{{idop}}" id="geom-{{idop}}-tab" role="tab">
+                                    Géométrie
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a aria-controls="granulo-{{idop}}" aria-selected="false" class="nav-link" data-toggle="tab" href="#granulo-{{idop}}" id="granulo-{{idop}}-tab" role="tab">
+                                    Granulométrie
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a aria-controls="modele-{{idop}}" aria-selected="false" class="nav-link" data-toggle="tab" href="#modele-{{idop}}" id="modele-{{idop}}-tab" role="tab">
+                                    Modèles
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a aria-controls="habitat-{{idop}}" aria-selected="false" class="nav-link disabled" data-toggle="tab" href="#habitat-{{idop}}" id="habitat{{idop}}-tab" role="tab">
+                                    Habitat
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="row tab-content" id="tabinformations">
+                        <div aria-labelledby="geom-{{idop}}-tab" class="tab-pane fade {% if loop.first %} show active {% endif %}" id="geom-{{idop}}" role="tabpanel">
+                            <div class="loader" id="loadergeom">
+                                <p>
+                                    Géométrie en cours de chargement...
+                                </p>
+                            </div>
+                        </div>
+                        <div aria-labelledby="granulo-{{idop}}-tab" class="tab-pane fade" id="granulo-{{idop}}" role="tabpanel">
+                            <div class="loader" id="loadergeom">
+                                <p>
+                                    Granulométrie en cours de chargement...
+                                </p>
+                            </div>
+                        </div>
+                        <div aria-labelledby="modele-{{idop}}-tab" class="tab-pane fade" id="modele-{{idop}}" role="tabpanel">
+                            <div class="loader" id="loadergeom">
+                                <p>
+                                    Modèles en cours de chargement...
+                                </p>
+                            </div>
+                        </div>
+                        <div aria-labelledby="habitat-{{idop}}-tab" class="tab-pane fade" id="habitat-{{idop}}" role="tabpanel">
+                            <div class="loader" id="loadergeom">
+                                <p>
+                                    Habitat en cours de chargement...
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

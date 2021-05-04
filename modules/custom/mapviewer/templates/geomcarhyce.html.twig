@@ -1,0 +1,147 @@
+<div class="container-fluid">
+  <div class="row justify-content-md-center">
+    <div class="graphpanel">
+      <div id="graph_{{ idoperation }}"></div>
+      <div class="legendied">
+          D’après Gob F., Thommeret N., Bilodeau C., Tamisier V., Duval E., Legentil C., Grancher D., Raufaste S., Baudoin J-M.
+          <br/>
+          et Kreutzenberger K., Interface d’exploitation des données Carhyce [en ligne], Laboratoire de Géographie Physique – AFB :
+          <a href="http://lgp.cnrs.fr/carhyce">IED CARHYCE</a>
+      </div>
+    </div>
+    <div class="graphpanel">
+      <div id="profil_{{ idoperation }}"></div>
+      <div class="legendied">
+          D’après Gob F., Thommeret N., Bilodeau C., Tamisier V., Duval E., Legentil C., Grancher D., Raufaste S., Baudoin J-M.
+          <br/>
+          et Kreutzenberger K., Interface d’exploitation des données Carhyce [en ligne], Laboratoire de Géographie Physique – AFB :
+          <a href="http://lgp.cnrs.fr/carhyce">IED CARHYCE</a>
+      </div>
+    </div>
+    <div class="graphpanel">
+      <div id="travers_{{ idoperation }}"></div>
+      <div class="legendied">
+          D’après Gob F., Thommeret N., Bilodeau C., Tamisier V., Duval E., Legentil C., Grancher D., Raufaste S., Baudoin J-M.
+          <br/>
+          et Kreutzenberger K., Interface d’exploitation des données Carhyce [en ligne], Laboratoire de Géographie Physique – AFB :
+          <a href="http://lgp.cnrs.fr/carhyce">IED CARHYCE</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JAVASCRIPT -->
+{% block javascripts %}
+<script>
+  /******************** GRAPH 3D ************************************/
+  var layout_3D = {
+    scene: 
+      {
+        xaxis:{title: 'Distance depuis la rive gauche (m)' },
+        yaxis:{title: 'Distance depuis l\'amont (m) '},
+        zaxis:{title: 'Cote'}
+      },
+      title: 'Profil 3D',
+      // autosize: true,
+      width: 1200,
+      height: 800,
+  };
+
+  var data_3D = {{ json_transects |  json_encode(constant('JSON_PRETTY_PRINT')) | raw }} 
+  Plotly.newPlot('graph_{{ idoperation }}', data_3D, layout_3D, {showSendToCloud: true, responsive: true});
+
+
+  /*************************** GRAPH PROFIL *************************/
+  layout_profil = {
+    showlegend: true,
+    font: {size: 16}, 
+    title: 'Profil en long',
+    annotations: [{
+      text: "Pente de la ligne d'eau: {{pente_ligne_deau}}%",
+        font: {
+        size: 13,
+        color: 'rgb(40, 40, 40)',
+      },
+      showarrow: false,
+      align: 'center',
+      x: 0.1,
+      y: 1,
+      xref: 'paper',
+      yref: 'paper',
+    }],
+    xaxis: {
+      type: 'linear', 
+      ticks: 'outside', 
+      title: 'Distance à la limite amont de la station (m)', 
+      nticks: 5, 
+      showline: true, 
+      tickfont: {size: 16}, 
+      autorange: true, 
+      gridcolor: 'rgb(240, 240, 240)', 
+      gridwidth: 2, 
+      showticklabels: true
+    }, 
+    yaxis: {
+      type: 'linear', 
+      ticks: 'outside', 
+      title: 'Cote (m)', 
+      nticks: 5, 
+      showline: true, 
+      tickfont: {size: 16}, 
+      autorange: true, 
+      gridcolor: 'rgb(240, 240, 240)', 
+      gridwidth: 2, 
+      fixedrange: true, 
+      showticklabels: true
+    }, 
+    width: 1200,
+    height: 800,
+    // autosize: true
+  };
+
+  var data_profil = {{ json_profil |  json_encode(constant('JSON_PRETTY_PRINT')) | raw }}  
+  Plotly.newPlot('profil_{{ idoperation }}', data_profil, layout_profil, {showSendToCloud: true, responsive: true});
+
+
+ /**************************** GRAPH 2D TRAVERS *******************/
+  var data_travers = {{ json_transect2D |  json_encode(constant('JSON_PRETTY_PRINT')) | raw }}  
+
+  layout_travers = {
+    showlegend: true,
+    font: {size: 16}, 
+    title: 'Profil en travers', 
+    xaxis: {
+      type: 'linear', 
+      // range: [0, 25], 
+      ticks: 'outside', 
+      title: 'Distance par rapport à la rive gauche', 
+      nticks: 5, 
+      showline: true, 
+      tickfont: {size: 16}, 
+      autorange: true, 
+      gridcolor: 'rgb(240, 240, 240)', 
+      gridwidth: 2, 
+      showticklabels: true
+    }, 
+    yaxis: {
+      type: 'linear', 
+      ticks: 'outside', 
+      title: 'Cote', 
+      nticks: 5, 
+      showline: true, 
+      tickfont: {size: 16}, 
+      autorange: true, 
+      gridcolor: 'rgb(240, 240, 240)', 
+      gridwidth: 2, 
+      fixedrange: true, 
+      showticklabels: true
+    }, 
+    width: 1200,
+    height: 800,  
+    // autosize: true
+  };
+
+  Plotly.newPlot('travers_{{ idoperation }}', data_travers, layout_travers, {showSendToCloud: true, responsive: true});
+
+</script>
+{% endblock %}
