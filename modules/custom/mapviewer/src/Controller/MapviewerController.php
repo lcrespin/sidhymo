@@ -228,7 +228,7 @@ class MapviewerController extends ControllerBase
         $cid = "getinfolocalisation_" . $territoire . "_" . $type."_".$code;
         if ($cache = \Drupal::cache()->get($cid)) {
             $localinfo_items = $cache->data;
-        } 
+        }
         else {
             // Si on interroge un objet classé par territoire on récupère la bonne conf
             $configterr = $this->config_objet[$type];
@@ -1365,7 +1365,7 @@ class MapviewerController extends ControllerBase
 
             //     if (isset($conf_rows_caracteristiques[$col])) {
             //         $rows_caracteristiques[] = array($conf_rows_caracteristiques[$col]['libelle'], $value, $conf_rows_caracteristiques[$col]['unite']);
-            //     } 
+            //     }
 
 
                     }
@@ -1500,7 +1500,7 @@ class MapviewerController extends ControllerBase
             cast( replace(cote_de_l_eau, ',', '.') as double precision) as cote_de_l_eau,
             cast( replace(cote_pb, ',', '.') as double precision) as cote_pb,
             cast( replace(y, ',', '.') as double precision) as x
-            FROM ied.liste_transect 
+            FROM ied.liste_transect
             WHERE tra_ope_id ='$operation'
             AND fond_de_lit != 'NA'
             ORDER BY  cast( replace(y, ',', '.') as double precision) ASC
@@ -1590,6 +1590,24 @@ class MapviewerController extends ControllerBase
                 $json_radier['radier']['y'][] = doubleval($point->numero);
             }
         }
+        //Tri croissant sur Axe y
+        $size=count($json_radier['radier']['y']);
+        foreach ($json_radier['radier']['x'] as $key => $value) {
+          for ($i=$key; $i <$size ; $i++) {
+            if($json_radier['radier']['y'][$i]<$json_radier['radier']['y'][$key]){
+
+              $tmp = $json_radier['radier']['x'][$key];
+              $json_radier['radier']['x'][$key] = $json_radier['radier']['x'][$i];
+              $json_radier['radier']['x'][$i] = $tmp;
+
+              $tmp = $json_radier['radier']['y'][$key];
+              $json_radier['radier']['y'][$key] = $json_radier['radier']['y'][$i];
+              $json_radier['radier']['y'][$i] = $tmp;
+
+            }
+          }
+        }
+
         $json_radier['radier']['uid']  = 'Acetone';
         $json_radier['radier']['type'] = 'scatter';
 
@@ -1624,6 +1642,7 @@ class MapviewerController extends ControllerBase
                 $json_triangulaire['prct_inf2']   = doubleval($pourcent->prct_inf2 * 10);
             }
         }
+
         // $json_radier['radier']['uid'] = 'Acetone';
         // $json_radier['radier']['type'] = 'scatter';
 
