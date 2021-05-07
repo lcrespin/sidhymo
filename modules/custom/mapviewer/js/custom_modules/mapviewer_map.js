@@ -286,13 +286,13 @@ var map = function(mapDiv, fichehandler_instance){
             style: root.styles.circleStyle
         });
         /* Openstreetmap  Layers */
-        // var olLayer = [new ol.layer.Tile({
-        //     title: 'Open street map',
-        //     visible: true,
-        //     type: 'base',
-        //     source: new ol.source.OSM()
-        // })];
-        var olLayer = [new ol.layer.Tile({
+         var olLayer = [new ol.layer.Tile({
+             title: 'Open street map',
+             visible: true,
+             type: 'base',
+             source: new ol.source.OSM()
+         })];
+        /*var olLayer = [new ol.layer.Tile({
             title: 'Open street map',
             visible: true,
             type: 'base',
@@ -300,7 +300,7 @@ var map = function(mapDiv, fichehandler_instance){
                 url: 'https://{a-c}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
                 crossOrigin: 'anonymous'
             })
-        })];        
+        })];*/        
         var openTopo = [new ol.layer.Tile({
             title: 'Open Topo',
             type: 'base',
