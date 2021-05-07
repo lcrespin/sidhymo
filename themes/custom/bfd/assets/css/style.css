@@ -6682,7 +6682,7 @@ input[type="button"].btn-block {
 }
 .nav-link.disabled {
   color: #6c757d;
-  pointer-events: none;
+  /* pointer-events: none; */
   cursor: default;
 }
 
@@ -15795,6 +15795,7 @@ a[class^="social-media-round-"]:before {
 /* MOBILE FIRST - content/_article.scss                                       */
 /* ---------------------------------------------------------------------------*/
 #page-content {
+  padding-left: 25px;
   overflow: hidden;
 }
 
@@ -17130,7 +17131,7 @@ aside.sticky-top {
   height: 8px;
   display: inline-block;
   background-color: #373f51;
-  margin-left: -1.5rem;
+  /* margin-left: -1.5rem; */
   margin-right: .5rem;
   -webkit-transform: translateY(-2px);
   transform: translateY(-2px);
