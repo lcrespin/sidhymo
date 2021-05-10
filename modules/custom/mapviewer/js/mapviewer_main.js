@@ -170,3 +170,7 @@ jQuery('#document').ready(function() {
     // jQuery('#modalinformation').modal('show')
     // fichehandler2.createfiche("stcarhyce", "4079750")
 });
+jQuery( window ).resize(function() {
+  var taille=jQuery('.path-frontpage').height()-jQuery('#header-menu').height()-parseInt(jQuery('#header-brand').css('padding-top'))-jQuery('#header-brand').height()-1
+  jQuery('#map').css('height',taille+"px");
+});
