@@ -1,6 +1,15 @@
 {# mapviewer/templates/cartographie.html.twig #}
+
+<!-- TODO : C'est pas très beau -->
+<!-- <style type="text/css">
+*::-webkit-scrollbar {
+  width: 0px!important;
+}
+</style> -->
+
+
 <!-- notification -->
-<div id="notifications" class="position-absolute w-100 p-4 d-flex flex-column align-items-center" style="top: 25px;">   
+<div id="notifications" class="position-absolute w-100 p-4 d-flex flex-column align-items-center" style="top: 25px;">
 
 </div>
 
@@ -8,10 +17,10 @@
 <div class="map" id="map">
 </div>
 
-<!-- Container -->  
+<!-- Container -->
 <div class="container-fluid">
     <!-- Barre de recherche du haut de carte (searchbox) -->
-    <div class="row">
+    <div class="row searchbox">
         <div class="col" style="z-index: -10;">
         </div>
         <div class="col-5">
@@ -23,7 +32,7 @@
     </div>
     <div class="row">
         <div class="col-1">
-            <!-- Barre de changement d'emprise (DROM) --> 
+            <!-- Barre de changement d'emprise (DROM) -->
             <div class="selectemp">
                 <div class="col" id="met">
                     Metropole
@@ -45,7 +54,7 @@
                 </div>
             </div>
         </div>
-        <!-- Zone de notification de chargement --> 
+        <!-- Zone de notification de chargement -->
 <!--         <div class="col">
 
         </div>
@@ -53,7 +62,7 @@
         </div> -->
     </div>
 
-    <!-- Tableaux de resultats (sticky en bas) --> 
+    <!-- Tableaux de resultats (sticky en bas) -->
     <div class="fixed-bottom" id="bot_panel">
         <div class="row" >
             <div class="col" style="z-index: -10;">
@@ -112,4 +121,3 @@
     </div>
   </div>
 </div>
-

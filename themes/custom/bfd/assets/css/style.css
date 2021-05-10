@@ -15547,6 +15547,7 @@ html {
 /* Works on Chrome/Edge/Safari */
 *::-webkit-scrollbar {
   width: 12px;
+  /* width: 0px; */
 }
 
 *::-webkit-scrollbar-track {
@@ -18644,3 +18645,9 @@ ol.breadcrumb .breadcrumb-item {
     display: block;
     max-width: 100%;
 } }
+
+.no-margin{
+  margin-left: 0px;
+  margin-right: 0px;
+
+}

@@ -2,7 +2,6 @@
  * Class searchbar
  */
 var searchbar = function(searchbardiv, map_instance, resultable_instance){
-    
     var localmap = new Object();
     var localresultable = new Object();
     var _this = this
@@ -76,7 +75,7 @@ var searchbar = function(searchbardiv, map_instance, resultable_instance){
             vectorSourceEmprise.addFeatures(features);
             var vectorEmprise = new ol.layer.Vector({
                 title: layername,
-                type: 'emprise',               
+                type: 'emprise',
                 source: vectorSourceEmprise,
                 projection: 'EPSG:4326',
                 style: localmap.styles.yellowStyle
@@ -96,6 +95,7 @@ var searchbar = function(searchbardiv, map_instance, resultable_instance){
      * Ajout des objets d'étude qui recoupent l'emprise selectionnée
      */
     var addObjetEtude = function(typeEmprise, cdEmprise) {
+
         /* Initialiser les layers qui vont accueilir les couches. ajouter au groupe 'interactif' */
         config.array_objets_etude.forEach(function(typeObjetEtude){
             map.getLayerGroup().getLayers().item(3).getLayers().push(new ol.layer.Vector())
@@ -105,11 +105,11 @@ var searchbar = function(searchbardiv, map_instance, resultable_instance){
         config.array_objets_etude.forEach(function(typeObjetEtude, index){
             /* Récupérer et affiche le geojson des objets */
             objetdetude_url = config.url_searchobjet+"?emprise="+typeEmprise+"&gid="+cdEmprise+"&type="+typeObjetEtude.name;
-            
+
             /* Ajouter une notification de chargement */
             var notif = _this.addNotification('<b>Chargement des ' + typeObjetEtude.libelle + ' en cours...</b>',
-                                              typeObjetEtude.name, 
-                                              typeObjetEtude.libelle, 
+                                              typeObjetEtude.name,
+                                              typeObjetEtude.libelle,
                                               typeObjetEtude.name+'.png');
 
             jQuery.getJSON(objetdetude_url, function(data) {
@@ -122,9 +122,9 @@ var searchbar = function(searchbardiv, map_instance, resultable_instance){
                         _this.addNotification('<b>Il y a plus de 1000 ' + typeObjetEtude.libelle + ' dans cette emprise, pour ne pas ralentir l\'outil cartographique la couche a donc été masquée par défaut.\
                                                 Utilisez l\'outil de gestion de couche <img src="modules/custom/mapviewer/images/layerswit.png" width="20" style="margin: 2px;"/>\
                                                 pour l\'afficher.</b>',
-                                                typeObjetEtude.name+'_warn', 
-                                                typeObjetEtude.libelle, 
-                                                typeObjetEtude.name+'.png', 
+                                                typeObjetEtude.name+'_warn',
+                                                typeObjetEtude.libelle,
+                                                typeObjetEtude.name+'.png',
                                                 false,
                                                 true);
                         visibility = false
@@ -134,13 +134,13 @@ var searchbar = function(searchbardiv, map_instance, resultable_instance){
                     notif.hide(3000, function() {
                         notif.remove();
                     });
-                    
+
 
                     // Afficher sur la carte
                     features = new ol.format.GeoJSON().readFeatures(data, {
                         featureProjection: 'EPSG:3857'
                     });
-      
+
                     /* Layer de l'emprise selectionnée */
                     vectorSourceObjet = new ol.source.Vector();
                     vectorSourceObjet.addFeatures(features);
@@ -169,14 +169,14 @@ var searchbar = function(searchbardiv, map_instance, resultable_instance){
                     // console.log("Pas de "+type+ " trouvé")
                 }
             });
-           
+
         });
     }
 
     this.addNotification = function(message, type, lbtype, legende_png, showloader=true, autohide=false) {
 
         var html_notif = '\
-        <div id="notif' + type + '" class="toast" style="z-index:10001;  margin: 2px;">\
+        <div id="notif' + type + '" class="toast" style="z-index:1000;  margin: 2px;">\
             <div class="toast-header">\
                 <img src="modules/custom/mapviewer/images/' + legende_png + '" width="20" style="margin-right: 7px;">\
                 <strong class="mr-auto" id="notif'+type+'text">' + message + '</strong>';

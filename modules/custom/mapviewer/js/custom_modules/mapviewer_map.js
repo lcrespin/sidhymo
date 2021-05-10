@@ -4,7 +4,7 @@
 var map = function(mapDiv, fichehandler_instance){
     var root = this;
     var localfichehandler = new Object();
-    
+
     this.territoire = "met";
 
     this.styles = {
@@ -39,18 +39,18 @@ var map = function(mapDiv, fichehandler_instance){
                     src: 'modules/custom/mapviewer/images/roe_red.png',
                     anchorXUnits: 'pixels',
                     anchorYUnits: 'pixels',
-                    opacity: 0.50, 
+                    opacity: 0.50,
                     scale: 0.5,
                 }),
                 zIndex: 10
-            }), 
+            }),
             new ol.style.Style({
                 image: new ol.style.Icon({ /** @type {olx.style.IconOptions} */
                     anchor: [12.5, 39],
                     src: 'modules/custom/mapviewer/images/marker-shadow.png',
                     anchorXUnits: 'pixels',
                     anchorYUnits: 'pixels',
-                    opacity: 0.50, 
+                    opacity: 0.50,
                     scale: 0.5,
                 }),
                 zIndex: 9
@@ -300,14 +300,14 @@ var map = function(mapDiv, fichehandler_instance){
                 url: 'https://{a-c}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
                 crossOrigin: 'anonymous'
             })
-        })];*/        
+        })];*/
         var openTopo = [new ol.layer.Tile({
             title: 'Open Topo',
             type: 'base',
             visible: false,
             source: new ol.source.XYZ({
                 url: '//{a-c}.tile.opentopomap.org/{z}/{x}/{y}.png',
-                crossOrigin: 'anonymous'
+                // crossOrigin: 'anonymous'
             })
         })];
         /* Fond blanc */
@@ -359,7 +359,7 @@ var map = function(mapDiv, fichehandler_instance){
                 new ol.layer.Group({
                     title: 'Couches interactives',
                     layers: []
-                }), 
+                }),
 
             ],
             target: document.getElementById(mapDiv),
@@ -381,33 +381,33 @@ var map = function(mapDiv, fichehandler_instance){
         // console.log("initemprisesgeo");
         jQuery('#met').on('click', function (e) {
             root.territoire = "met"
-            map.getView().fit([-728903.5017, 5041174.8895, 1345291.6978, 6709336.5948], { duration: 1000 } ); 
+            map.getView().fit([-728903.5017, 5041174.8895, 1345291.6978, 6709336.5948], { duration: 1000 } );
         });
 
         // Guadeloupe
         jQuery('#gua').on('click', function (e) {
             root.territoire = "gua"
-            map.getView().fit([-6880639.447271852, 1785277.9421617945, -6790707.013272151, 1864381.2947347453], { duration: 1000 } ); 
+            map.getView().fit([-6880639.447271852, 1785277.9421617945, -6790707.013272151, 1864381.2947347453], { duration: 1000 } );
         });
         // Martinique
         jQuery('#mar').on('click', function (e) {
             root.territoire = "mar"
-            map.getView().fit([-6815985.712634657, 1618842.758636648, -6769303.47896755, 1675227.172954789], { duration: 1000 } ); 
-        }); 
+            map.getView().fit([-6815985.712634657, 1618842.758636648, -6769303.47896755, 1675227.172954789], { duration: 1000 } );
+        });
         // Guyanne
         jQuery('#guy').on('click', function (e) {
             root.territoire = "guy"
-            map.getView().fit([-6078310.204141547, 235054.7576209647, -5746205.305923755, 640956.3987252256], { duration: 1000 } ); 
+            map.getView().fit([-6078310.204141547, 235054.7576209647, -5746205.305923755, 640956.3987252256], { duration: 1000 } );
         });
         // Reunion
         jQuery('#reu').on('click', function (e) {
             root.territoire = "reu"
-            map.getView().fit([6146676.089800716, -2438399.3231658326, 6215704.815122672, -2376601.3580462346], { duration: 1000 } ); 
+            map.getView().fit([6146676.089800716, -2438399.3231658326, 6215704.815122672, -2376601.3580462346], { duration: 1000 } );
         });
         // Mayotte
         jQuery('#may').on('click', function (e) {
             root.territoire = "may"
-            map.getView().fit([5011419.083682236, -1460351.3626672423, 5042771.477989549, -1418243.3332407956], { duration: 1000 } ); 
+            map.getView().fit([5011419.083682236, -1460351.3626672423, 5042771.477989549, -1418243.3332407956], { duration: 1000 } );
         });
     }
 
@@ -452,7 +452,7 @@ var map = function(mapDiv, fichehandler_instance){
         var select = document.createElement('select');
         select.id = 'group-select-style-input';
         container.appendChild(select);
-        // Remplir cette liste avec la liste des layers sandre dispo en WMS        
+        // Remplir cette liste avec la liste des layers sandre dispo en WMS
         var parser = new ol.format.WMSCapabilities();
         fetch('https://services.sandre.eaufrance.fr/geo/sandre?REQUEST=getCapabilities&service=WMS').then(function(response) {
             return response.text();
@@ -560,7 +560,7 @@ var map = function(mapDiv, fichehandler_instance){
                 // S'il y a une feature a cet endroit on highlight
                 if (feature && layer.values_.type == 'objetdetude') {
                     map.getTargetElement().style.cursor  = 'pointer';
-                    // Enregistrer le style et la feature pour anuler plus tard 
+                    // Enregistrer le style et la feature pour anuler plus tard
                     selectedFeature = feature;
                     selectedFeatureOldStyle = feature.getStyle();
                     name = layer.get('name');
@@ -569,7 +569,7 @@ var map = function(mapDiv, fichehandler_instance){
                         feature.setStyle(eval('root.styles.hover'+name+'Style'));
                     }
                     else {
-                        feature.setStyle(root.styles.redStyle);   
+                        feature.setStyle(root.styles.redStyle);
                     }
                     feature.changed();
                 }
@@ -625,7 +625,7 @@ var map = function(mapDiv, fichehandler_instance){
     // }
 
     /*
-     * Aller sur un objet en "volant/zoomant"  
+     * Aller sur un objet en "volant/zoomant"
      */
     var flyTo = function(location, done) {
         view = map.getView();
@@ -661,5 +661,5 @@ var map = function(mapDiv, fichehandler_instance){
      * Pass options when class instantiated
      */
     this.construct(mapDiv, fichehandler_instance);
- 
+
 };

@@ -37,7 +37,7 @@
     font-weight: 900;
     background: rgba(255,255,255,.4);
     border-radius: 42px;
-    margin: 65px -15px 0px 18px;
+    margin: 0px -15px 0px 18px;
     padding: 0px 0 0 0;
     width: 70px;
 }
@@ -337,11 +337,21 @@
 .row {
 	margin-right: 0px!important;
 }
-
-.container-fluid {
+.path-frontpage{
+  height:100vh;
+}
+/* .map .container-fluid {
 	padding: 0px;
+  padding-bottom: 25px!important;
+} */
+
+*::-webkit-scrollbar {
+  width: 0px!important;
 }
 
+.searchbox{
+  margin-bottom: 70px;
+}
 /* info bulle */
 a[id$='-tab'][id^='habitat'] {
   position: relative;

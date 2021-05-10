@@ -68,7 +68,7 @@ var config = {
                                             src: 'modules/custom/mapviewer/images/marker-shadow.png',
                                             anchorXUnits: 'pixels',
                                             anchorYUnits: 'pixels',
-                                            opacity: 0.50, 
+                                            opacity: 0.50,
                                             scale: 0.5,
                                         }),
                                         zIndex: 9
@@ -84,7 +84,7 @@ var config = {
                                         /* Les points seront des puces bleues (une image) */
                                         image: new ol.style.Icon({ /** @type {olx.style.IconOptions} */
                                             anchor: [12.5, 39],
-                                            src: 'modules/custom/mapviewer/images/roeice.png', 
+                                            src: 'modules/custom/mapviewer/images/roeice.png',
                                             anchorXUnits: 'pixels',
                                             anchorYUnits: 'pixels',
                                             opacity: 0.90,
@@ -133,11 +133,12 @@ var config = {
                             }
                           ]
 };
-    
+
 jQuery('#document').ready(function() {
 
+  // return 0;
     // jQuery('#spinner').hide();
-    
+
     // Construct
     fichehandler2 = new fichehandler();
     map2 = new map('map', fichehandler2);
@@ -146,9 +147,13 @@ jQuery('#document').ready(function() {
 
     // do
     map2.initemprisesgeo();
-    map2.addLayerSwitcher(); 	
+    map2.addLayerSwitcher();
     map2.ficheControler();
     map2.highlightControler();
+
+    //Hauteur de la map
+    var taille=jQuery('.path-frontpage').height()-jQuery('#header-menu').height()-parseInt(jQuery('#header-brand').css('padding-top'))-jQuery('#header-brand').height()-1
+    jQuery('#map').css('height',taille+"px");
 
     // jQuery("#stcarhyce").toast({delay:1000});
     // jQuery("#stcarhyce").toast('show');
