@@ -34,6 +34,12 @@ var searchbar = function(searchbardiv, map_instance, resultable_instance){
                 _this.getEmpriseEtObjetDetude(splitchoice[0], splitchoice[1], e.params.data.text)
             }
         }).maximizeSelect2Height();
+
+        jQuery('.select2').on('click', function () {
+          jQuery('#notifications').html('');
+          jQuery('.layer-switcher').removeClass('shown');
+          jQuery('.layer-switcher').children().html("");
+        })
     };
 
     /*
@@ -45,8 +51,12 @@ var searchbar = function(searchbardiv, map_instance, resultable_instance){
         initEmpriseEtObjetDetude();
         addEmprise(type, obj, layername)
         addObjetEtude(type, obj)
+        _this.removeForeground()
     };
 
+    this.removeForeground = function() {
+        console.log(map_instance);
+    };
     /*
      * initialise les couches interactives
      */

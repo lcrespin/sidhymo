@@ -666,51 +666,51 @@ class MapviewerController extends ControllerBase
             ),
             "taux_vcom_" => array(
                 "libelle" => "Indicateur de présence de voies de communications à proximité du lit mineur",
-                "unite"   => "",
+                "unite"   => "%",
             ),
             "taux_vcom1" => array(
                 "libelle" => "Indicateur de présence de voies de communications dans le lit majeur",
-                "unite"   => "",
+                "unite"   => "%",
             ),
             "taux_dig_3" => array(
                 "libelle" => "Indicateur de présence de digues à proximité du lit mineur",
-                "unite"   => "",
+                "unite"   => "%",
             ),
             "taux_dig_1" => array(
                 "libelle" => "Indicateur de présence de digues dans le lit majeur",
-                "unite"   => "",
+                "unite"   => "%",
             ),
             "taux_urb_1" => array(
                 "libelle" => "Indicateur d’occupation du sol de type artificiel à proximité du lit mineur",
-                "unite"   => "",
+                "unite"   => "%",
             ),
             "taux_surla" => array(
                 "libelle" => "Indicateur de surlargeur des grands cours d’eau",
-                "unite"   => "",
+                "unite"   => "%",
             ),
             "taux_pland" => array(
                 "libelle" => "Indicateur de présence de plans d’eau sur le réseau hydrographique",
-                "unite"   => "",
+                "unite"   => "%",
             ),
             "taux_pla_1" => array(
                 "libelle" => "Indicateur de présence de plans d’eau déconnectés du réseau hydrographique dans le lit majeur",
-                "unite"   => "",
+                "unite"   => "%",
             ),
             "taux_vege_" => array(
                 "libelle" => "Indicateur du boisement des berges : rideau d’arbres",
-                "unite"   => "",
+                "unite"   => "%",
             ),
             "taux_vege1" => array(
                 "libelle" => "Indicateur du boisement des berges : ripisylve",
-                "unite"   => "",
+                "unite"   => "%",
             ),
             "taux_veg_1" => array(
                 "libelle" => "Indicateur de boisement du lit majeur",
-                "unite"   => "",
+                "unite"   => "%",
             ),
             "taux_recti" => array(
                 "libelle" => "Indicateur de rectitude du tracé en plan du cours d’eau",
-                "unite"   => "",
+                "unite"   => "%",
             ),
 
             // DROM
@@ -1882,5 +1882,10 @@ EOT;
         $query      = $connection->query("SELECT territoires.territoire FROM public.territoires, public.$typeobjet WHERE $typeobjet.gid = '$gid' AND ST_Intersects(territoires.geom, $typeobjet.geom)");
         $queryfetch = $query->fetchAll();
         return $queryfetch[0]->territoire;
+    }
+
+    public function getConfig_objet()
+    {
+      return $this->config_objet;
     }
 }

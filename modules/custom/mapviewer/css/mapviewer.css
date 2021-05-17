@@ -372,3 +372,7 @@ a[id$='-tab'][id^='habitat']:focus:after {
   color: #fff;
   border-radius: 4px;
 }
+
+.select2{
+  width:100%!important;
+}

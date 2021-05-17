@@ -1,0 +1,5 @@
+services:
+  mapviewer.commands:
+    class: \Drupal\mapviewer\Commands\MapviewerCommands
+    tags:
+      - { name: drush.command }

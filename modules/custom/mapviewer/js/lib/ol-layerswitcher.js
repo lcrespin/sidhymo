@@ -131,7 +131,7 @@
 
 			_this.mapListeners = [];
 
-			_this.hiddenClassName = 'ol-unselectable ol-control layer-switcher hello';
+			_this.hiddenClassName = 'ol-unselectable ol-control layer-switcher';
 			if (LayerSwitcher.isTouchDevice_()) {
 				_this.hiddenClassName += ' touch';
 			}
