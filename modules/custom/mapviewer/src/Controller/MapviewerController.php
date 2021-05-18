@@ -1888,4 +1888,36 @@ EOT;
     {
       return $this->config_objet;
     }
+
+    public function getTableTerritoires()
+    {
+      $connection = Database::getConnection('default', 'data_sidhymo');
+      // $query      = $connection->query("SELECT * FROM public.territoires");
+      $query      = $connection->query("SELECT territoire from territoires");
+      $queryfetch = $query->fetchAll();
+
+      $data = array( );
+      foreach ($queryfetch as $key => $value) {
+        $querystr = <<<EOT
+        SELECT json_build_object(
+                 'type', 'FeatureCollection',
+                 'features', json_agg(ST_AsGeoJSON(t.*)::json)
+             )
+             FROM (
+                     SELECT geom, territoire as libelle
+                     FROM territoires t1 where territoire='$value->territoire'
+                   )
+             AS t;
+        EOT;
+        $query = $connection->query($querystr);
+        $queryfetchfeature = $query->fetchAll();
+
+        array_push($data, array($value->territoire => $queryfetchfeature[0]->json_build_object));
+      }
+
+      $response = new JsonResponse();
+      $response = JsonResponse::fromJsonString(json_encode($data));
+      return $response;
+
+    }
 }

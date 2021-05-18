@@ -55,7 +55,6 @@ var searchbar = function(searchbardiv, map_instance, resultable_instance){
     };
 
     this.removeForeground = function() {
-        console.log(map_instance);
     };
     /*
      * initialise les couches interactives

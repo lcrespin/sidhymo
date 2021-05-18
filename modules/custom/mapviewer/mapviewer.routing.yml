@@ -55,3 +55,11 @@ mapviewer.getcarhycemodele:
     _title: ''
   requirements:
     _permission: 'access content'
+
+mapviewer.gettableterritoires:
+  path: '/gettableterritoires'
+  defaults:
+    _controller: '\Drupal\mapviewer\Controller\MapviewerController::getTableTerritoires'
+    _title: ''
+  requirements:
+    _permission: 'access content'

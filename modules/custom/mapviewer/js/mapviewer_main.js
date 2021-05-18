@@ -1,9 +1,12 @@
 /* https://joebuckle.me/quickie/jquery-create-object-oriented-classes-in-jquery/ */
 
 var config = {
+  //// TODO: A modifier avant de push
     url_searchemprise : 'http://amihydro.oieau.fr/sidhymo/searchemprise',
     url_wfsemprise : 'http://amihydro.oieau.fr/ows',
     url_searchobjet : 'http://amihydro.oieau.fr/sidhymo/searchobjet',
+    //New
+    url_gettableterritoires : 'http://amihydro.oieau.fr/sidhymo/gettableterritoires',
     array_objets_etude  : [
                             {
                                 name : 'usra',
@@ -146,7 +149,7 @@ jQuery('#document').ready(function() {
     searchbar2 = new searchbar('searchbar', map2, resultable2)
 
     // do
-    map2.initemprisesgeo();
+    map2.initemprisesgeo(resultable2);
     map2.addLayerSwitcher();
     map2.ficheControler();
     map2.highlightControler();
@@ -154,6 +157,7 @@ jQuery('#document').ready(function() {
     //Hauteur de la map
     var taille=jQuery('.path-frontpage').height()-jQuery('#header-menu').height()-parseInt(jQuery('#header-brand').css('padding-top'))-jQuery('#header-brand').height()-1
     jQuery('#map').css('height',taille+"px");
+
 
     // jQuery("#stcarhyce").toast({delay:1000});
     // jQuery("#stcarhyce").toast('show');

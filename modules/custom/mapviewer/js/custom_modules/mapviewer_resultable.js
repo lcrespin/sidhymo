@@ -2,7 +2,7 @@
  * Class resultable
  */
 var resultable = function(map_instance, fichehandler_instance){
-    
+
     var datahtml = ""
 
     var localmap = new Object();
@@ -23,7 +23,7 @@ var resultable = function(map_instance, fichehandler_instance){
     };
 
     /**
-     * Init le HTML de la table 
+     * Init le HTML de la table
      */
     this.initResultTable = function() {
         datahtml = '<table id="tableau_resultats" class="tablesorter">\
@@ -51,7 +51,7 @@ var resultable = function(map_instance, fichehandler_instance){
                     // stickyHeaders_addCaption: true // or $('.wrapper')
                 }
         });
-
+        slideBotPanelMiddle('down');
     }
 
     /**
@@ -116,6 +116,13 @@ var resultable = function(map_instance, fichehandler_instance){
         });
         jQuery('#slidedownup').html("⏬");
       }
+    }
+
+    this.slideBotPanelMiddleDown = function() {
+      jQuery('#bot_panel_middle').animate({
+        height: "0px",
+      });
+      jQuery('#slidedownup').html("⏫");
     }
     /*
      * Pass options when class instantiated

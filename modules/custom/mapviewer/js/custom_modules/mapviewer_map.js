@@ -377,38 +377,38 @@ var map = function(mapDiv, fichehandler_instance){
     /*
      * Choix d'une emprise géo DOM / TOM
      */
-    this.initemprisesgeo = function() {
-        // console.log("initemprisesgeo");
-        jQuery('#met').on('click', function (e) {
-            root.territoire = "met"
-            map.getView().fit([-728903.5017, 5041174.8895, 1345291.6978, 6709336.5948], { duration: 1000 } );
+    this.initemprisesgeo = function(resultable) {
+      jQuery.getJSON(config.url_gettableterritoires, function(data) {
+        for (var colonne in data) {
+          for (var value in data[colonne]) {
+            addEventTerritoire(value,data[colonne][value],resultable)
+          }
+        }
+      });
+    }
+
+    var addEventTerritoire = function(territoire, geojson, resultable){
+      jQuery('#'+territoire).on('click', function (e) {
+        //remet à zero le tableau
+        resultable.initResultTable();
+        //Efface la recherche
+        jQuery('#searchbar').html("");
+        // Efface la map
+        map.getLayerGroup().getLayers().item(3).getLayers().clear()
+
+        root.territoire = territoire
+
+        features = new ol.format.GeoJSON().readFeatures(geojson, {
+          featureProjection: 'EPSG:3857'
         });
 
-        // Guadeloupe
-        jQuery('#gua').on('click', function (e) {
-            root.territoire = "gua"
-            map.getView().fit([-6880639.447271852, 1785277.9421617945, -6790707.013272151, 1864381.2947347453], { duration: 1000 } );
-        });
-        // Martinique
-        jQuery('#mar').on('click', function (e) {
-            root.territoire = "mar"
-            map.getView().fit([-6815985.712634657, 1618842.758636648, -6769303.47896755, 1675227.172954789], { duration: 1000 } );
-        });
-        // Guyanne
-        jQuery('#guy').on('click', function (e) {
-            root.territoire = "guy"
-            map.getView().fit([-6078310.204141547, 235054.7576209647, -5746205.305923755, 640956.3987252256], { duration: 1000 } );
-        });
-        // Reunion
-        jQuery('#reu').on('click', function (e) {
-            root.territoire = "reu"
-            map.getView().fit([6146676.089800716, -2438399.3231658326, 6215704.815122672, -2376601.3580462346], { duration: 1000 } );
-        });
-        // Mayotte
-        jQuery('#may').on('click', function (e) {
-            root.territoire = "may"
-            map.getView().fit([5011419.083682236, -1460351.3626672423, 5042771.477989549, -1418243.3332407956], { duration: 1000 } );
-        });
+        /* Layer de l'emprise selectionnée */
+        vectorSourceEmprise = new ol.source.Vector();
+        vectorSourceEmprise.addFeatures(features);
+
+        // Zoomer
+        map.getView().fit(vectorSourceEmprise.getExtent(), { duration: 1000 } );
+      });
     }
 
     /*
