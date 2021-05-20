@@ -38,6 +38,29 @@ Sur la base d’un recueil rédigé par l’Agence Française pour la Biodiversi
    ```sh
    sites/default/settings.php
    ```
+   ```php
+   $databases['default']['default'] = array (
+     'database' => 'drupal_databases',
+     'username' => '.....',
+     'password' => '....',
+     'prefix' => '....',
+     'host' => '....',
+     'port' => '....',
+     'namespace' => '....',
+     'driver' => '....',
+   );
+
+   $databases['data_sidhymo']['default'] = array (
+     'database' => 'data_databases',
+     'username' => '.....',
+     'password' => '.....',
+     'prefix' => '.....',
+     'host' => '.....',
+     'port' => '.....',
+     'namespace' => '....',
+     'driver' => '.....',
+   );
+   ```
 
 <!-- DRUSH -->
 ## Drush
