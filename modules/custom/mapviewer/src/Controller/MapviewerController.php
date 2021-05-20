@@ -1794,7 +1794,7 @@ class MapviewerController extends ControllerBase
 
         // Check cache
         $cid = "searchobjet_" . $emprise . "_" . $gid . "_" . $type;
-        if ($cache = \Drupal::cache()->get($cid) && false) {
+        if ($cache = \Drupal::cache()->get($cid)) {
             $data = $cache->data;
         } else {
             $config = $this->config_objet[$type];
