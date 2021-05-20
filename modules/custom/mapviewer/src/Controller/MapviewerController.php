@@ -1720,7 +1720,7 @@ class MapviewerController extends ControllerBase
         $territoire = $request->query->get('territoire');
         // Check cache
         $cid = "searchemprise_" . $term . "_" . $territoire;
-        if ($cache = \Drupal::cache()->get($cid) && false) {
+        if ($cache = \Drupal::cache()->get($cid)) {
             $data = $cache->data;
         } else {
             // Affiche les 5 premiers si pas de recherche encore
@@ -1742,12 +1742,12 @@ class MapviewerController extends ControllerBase
             $connection = Database::getConnection('default', 'data_sidhymo');
             if ($search=="") {
               foreach ($this->config_emprise as $colonne => $val) {
-                $query.= " (SELECT id, text FROM searchemprise $territoire_filter and type='$colonne' $orderby)";
+                $query.= " (SELECT type, id, text FROM searchemprise $territoire_filter and type='$colonne' $orderby)";
                 $query.=" UNION";
               }
-              $query = substr($query, 0, -5);
+              $query = substr($query, 0, -5)." order by text";
             }else {
-              $query= "SELECT id, text FROM searchemprise $search $territoire_filter $orderby";
+              $query= "SELECT type, id, text FROM searchemprise $search $territoire_filter order by text";
             }
             // echo $query;
             $query = $connection->query($query);
@@ -1757,7 +1757,7 @@ class MapviewerController extends ControllerBase
             foreach ($this->config_emprise as $colonne => $val) {
               $data_query[$colonne]=array();
               foreach ($data as $key => $value) {
-                if ($colonne == explode(".",$value->id)[0]) {
+                if ($colonne == $value->type) {
                   array_push($data_query[$colonne], $value);
                 }
               }
