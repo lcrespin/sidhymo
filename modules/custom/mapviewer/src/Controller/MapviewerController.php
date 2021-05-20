@@ -1718,13 +1718,11 @@ class MapviewerController extends ControllerBase
         $limit      = 5;
         $term       = $request->query->get('search');
         $territoire = $request->query->get('territoire');
-
         // Check cache
         $cid = "searchemprise_" . $term . "_" . $territoire;
-        if ($cache = \Drupal::cache()->get($cid)) {
+        if ($cache = \Drupal::cache()->get($cid) && false) {
             $data = $cache->data;
         } else {
-
             // Affiche les 5 premiers si pas de recherche encore
             $search  = "";
             $orderby = "";
@@ -1738,47 +1736,45 @@ class MapviewerController extends ControllerBase
             if ($search != "") {
                 $territoire_filter = " AND ";
             }
-            $territoire_filter .= " ST_Intersects(geom, (SELECT geom FROM public.territoires WHERE territoire='$territoire')) ";
+            // $territoire_filter .= " ST_Intersects(geom, (SELECT geom FROM public.territoires WHERE territoire='$territoire')) ";
+            $territoire_filter .= " territoire='$territoire' ";
 
             $connection = Database::getConnection('default', 'data_sidhymo');
+            if ($search=="") {
+              foreach ($this->config_emprise as $colonne => $val) {
+                $query.= " (SELECT id, text FROM searchemprise $territoire_filter and type='$colonne' $orderby)";
+                $query.=" UNION";
+              }
+              $query = substr($query, 0, -5);
+            }else {
+              $query= "SELECT id, text FROM searchemprise $search $territoire_filter $orderby";
+            }
+            // echo $query;
+            $query = $connection->query($query);
+            $data=$query->fetchAll();
 
-            // Hydroecoregion1
-            $query           = $connection->query("SELECT CONCAT('hydroecoregion1.', gid) as id, CONCAT(cdher1, ' ', nomher1) as text FROM {hydroecoregion1} $search $territoire_filter $orderby");
-            $hydroecoregion1 = $query->fetchAll();
-            // Hydroecoregion2
-            $query           = $connection->query("SELECT CONCAT('hydroecoregion2.', gid) as id, CONCAT(cdher2, ' ', nomher2) as text FROM {hydroecoregion2} $search $territoire_filter $orderby");
-            $hydroecoregion2 = $query->fetchAll();
-            // Régions hydrographique
-            $query       = $connection->query("SELECT CONCAT('regionhydro.', gid) as id, CONCAT(cdregionhy, ' ', lbregionhy) as text FROM {regionhydro} $search $territoire_filter $orderby");
-            $regionhydro = $query->fetchAll();
-            // Departements
-            $query        = $connection->query("SELECT CONCAT('departement.', gid) as id, CONCAT(cddepartem, ' ', lbdepartem) as text FROM {departement} $search $territoire_filter $orderby");
-            $departements = $query->fetchAll();
-            // Communes
-            $query    = $connection->query("SELECT CONCAT('commune.', gid) as id, CONCAT(cdcommune, ' ', lbcommune) as text FROM {commune} $search $territoire_filter $orderby");
-            $communes = $query->fetchAll();
-            // Courseau
-            $query    = $connection->query("SELECT CONCAT('courseau.', gid) as id, CONCAT(cdentitehy, ' ', nomentiteh) as text FROM {courseau} $search $territoire_filter $orderby");
-            $courseau = $query->fetchAll();
-            // Massedeau riviere
-            $query            = $connection->query("SELECT CONCAT('massedeauriviere.', gid) as id, CONCAT(cdmassedea, ' ', nommassede) as text FROM {massedeauriviere} $search $territoire_filter $orderby");
-            $massedeauriviere = $query->fetchAll();
-
-            // Regroup
+            $data_query = array();
+            foreach ($this->config_emprise as $colonne => $val) {
+              $data_query[$colonne]=array();
+              foreach ($data as $key => $value) {
+                if ($colonne == explode(".",$value->id)[0]) {
+                  array_push($data_query[$colonne], $value);
+                }
+              }
+            }
             $data   = array();
-            $data[] = array("text" => "Hydroecoregion 1", "children" => $hydroecoregion1);
-            $data[] = array("text" => "Hydroecoregion 2", "children" => $hydroecoregion2);
-            $data[] = array("text" => "Régions hydrographiques", "children" => $regionhydro);
-            $data[] = array("text" => "Departements", "children" => $departements);
-            $data[] = array("text" => "Communes", "children" => $communes);
-            $data[] = array("text" => "Cours d'eau", "children" => $courseau);
-            $data[] = array("text" => "Masse d'eau rivière", "children" => $massedeauriviere);
-
+            foreach ($this->config_emprise as $colonne => $val) {
+              $data[] = array("text" => $val['libelle_objet'], "children" => $data_query[$colonne]);
+            }
             \Drupal::cache()->set($cid, $data, CacheBackendInterface::CACHE_PERMANENT);
         }
         // Response
         $response = new JsonResponse();
         $response->setData(["results" => $data]);
+
+        // $fin = microtime(true);
+        // $tempsEcoule = $fin - $debut;
+        // echo $tempsEcoule;
 
         return $response;
     }
@@ -1798,10 +1794,9 @@ class MapviewerController extends ControllerBase
 
         // Check cache
         $cid = "searchobjet_" . $emprise . "_" . $gid . "_" . $type;
-        if ($cache = \Drupal::cache()->get($cid)) {
+        if ($cache = \Drupal::cache()->get($cid) && false) {
             $data = $cache->data;
         } else {
-
             $config = $this->config_objet[$type];
 
             // Si on interroge un objet classé par territoire
