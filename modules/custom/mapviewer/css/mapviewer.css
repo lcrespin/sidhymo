@@ -376,3 +376,20 @@ a[id$='-tab'][id^='habitat']:focus:after {
 .select2{
   width:100%!important;
 }
+
+pre#info {
+    z-index: 1;
+    opacity: 0;
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
+    transition: opacity 100ms ease-in 0s;
+}
+
+#info-text{
+    padding: 5px;
+    color: white;
+    background: rgba(0, 60, 136, 0.7);
+    width: max-content;
+    margin: auto;
+}

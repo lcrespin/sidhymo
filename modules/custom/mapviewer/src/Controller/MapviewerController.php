@@ -442,7 +442,7 @@ class MapviewerController extends ControllerBase
         $query = $connection->query("SELECT * FROM public.$tableusra WHERE $codetgh = '$code'");
         if ($query) {
             while ($row = $query->fetchAssoc()) {
-                $items_usra[] = array('#markup' => "<a href ='#'>[" . $row[$config['id_usra']] . "] " . $row[$toponyme_usra] . "</a>");
+                $items_usra[] = array('#markup' => "<a id='".$row[$config['id_usra']]."' href='#' class='informationusra'>[" . $row[$config['id_usra']] . "] " . $row[$toponyme_usra] . "</a>");
             }
         }
 
@@ -1846,7 +1846,7 @@ class MapviewerController extends ControllerBase
                 'features', json_agg(ST_AsGeoJSON(t.*)::json)
             )
             FROM (
-                    SELECT $type.geom, $type.$gid_field as gid, $type.$code_field as code, $type.$libelle_field as libelle
+                    SELECT '$type' as type, $type.geom, $type.$gid_field as gid, $type.$code_field as code, $type.$libelle_field as libelle
                     FROM public.$emprise t1, public.$type $type
                     WHERE $filtre t1.gid=$gid
                     AND $geomemprise
@@ -1854,7 +1854,6 @@ class MapviewerController extends ControllerBase
             AS t;
 EOT;
 
-            // echo $querystr;
             // return"";
             $connection = Database::getConnection('default', 'data_sidhymo');
             $query      = $connection->query($querystr);
