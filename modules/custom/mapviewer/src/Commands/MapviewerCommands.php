@@ -8,6 +8,7 @@ use Drush\Commands\DrushCommands;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\mapviewer\Controller\MapviewerController;
+use Drupal\Core\Database\Database;
 
 /**
  * A Drush commandfile.
@@ -21,6 +22,8 @@ use Drupal\mapviewer\Controller\MapviewerController;
  *   - http://cgit.drupalcode.org/devel/tree/drush.services.yml
  */
 class MapviewerCommands extends DrushCommands {
+
+  // private $mapviewer = new MapviewerController();
 
   /**
    * Command description here.
@@ -73,70 +76,93 @@ class MapviewerCommands extends DrushCommands {
   }
 
   /**
-   * Pour une nouvelle commande drush ajouter fonction avec une entete "command"
-   * @command mapviewer:test
-   */
-  public function test()
-  {
-    echo 'hello';
-    return 0;
-  }
-
-  /**
    * Permet de recreer les caches
-   * @command mapviewer:reload_cache
+   * @command mapviewer:cache_mapviewer
    */
-  public function reload_cache()
+  public function cache_mapviewer()
   {
-    $this->cache_emprise_drom();
+    $this->cache_emprises();
     return 0;
   }
 
 
   /**
-   * Permet de recreer les caches des DROM
+   * Permet de creer les caches des emprises
+   * @command mapviewer:cache_emprises
+   * @usage cache_emprises search emprise
+   *   Mettre si vous le souhaitez une emprise particuliere sous le format d'un tableau et/ou une recherche
+   *
+   * @aliases search emprise
    */
-  public function cache_emprise_drom()
+  public function cache_emprises($emprise="",$search="")
   {
     $mapviewer = new MapviewerController();
-    $drom=array('met','gua','mar','guy','reu','may');
-    foreach ($drom as $key => $value) {
+    if ($emprise=="") {
+      $connection = Database::getConnection('default', 'data_sidhymo');
+      $query      = $connection->query("SELECT territoire from territoires");
+      $queryfetch = $query->fetchAll();
+      $emprise=array();
+      foreach ($queryfetch as $key => $value) {
+        array_push($emprise,$value->territoire);
+      }
+    }else {
+      $emprise=array($emprise);
+    }
+
+    foreach ($emprise as $key => $value) {
       $request = Request::create(
         '/searchemprise',
         'GET',
-        ['territoire' => $value]
-        // ['territoire' => 'gua']
+        ['territoire' => $value, 'search' => $search]
       );
-      echo 'Create cache searchEmprise territoire = '.$request->query->get('territoire')." \n";
+      if ($search=="") {
+        echo 'Create cache searchEmprise territoire = '.$request->query->get('territoire')." \n";
+      }else {
+        echo 'Create cache searchEmprise territoire = '.$request->query->get('territoire')." et search = ".$request->query->get('search')."\n";
+      }
       $json = json_decode($mapviewer->searchEmprise($request)->getContent());
-      $this->cache_objet_drom($json,$mapviewer);
+      $this->cache_objets('','','',$json);
     }
+
   }
 
-  public function cache_objet_drom($json,$mapviewer)
+  /**
+   * Permet de recreer les caches des objets
+   * @command mapviewer:cache_objets
+   * @usage mapviewer-cache_objets emprise gid type
+   *    Renseigner l'emprise, gid et le type
+   *
+   * @aliases emprise gid type
+   */
+  public function cache_objets($emprise,$gid,$type,$json="")
   {
-    // var_dump($json);
-    foreach ($json->results as $key => $value) {
-      foreach ($value->children as $key => $value) {
-        $id=explode(".",$value->id);
-        $emprise=$id[0];
-        $gid=$id[1];
-        foreach ($mapviewer->getConfig_objet() as $key => $value) {
-          $type=$key;
-          echo "   Searchobjet emprise= ".$emprise." , gid= ".$gid." , type= ".$type."\n";
-          $request = Request::create(
-            '/searchobjet',
-            'GET',
-            // ['territoire' => $value]
-            ['emprise' => $emprise, 'gid' =>$gid , 'type'=> $type]
-          );
-          $mapviewer->searchObjet($request);
+    $mapviewer = new MapviewerController();
+    if ($json!="") {
+      foreach ($json->results as $key => $value) {
+        foreach ($value->children as $key => $value) {
+          $emprise=$value->type;
+          $gid=explode(".",$value->id)[1];
+          foreach ($mapviewer->getConfig_objet() as $key => $value) {
+            $type=$key;
+            echo "   Searchobjet emprise= ".$emprise." , gid= ".$gid." , type= ".$type."\n";
+            $request = Request::create(
+              '/searchobjet',
+              'GET',
+              ['emprise' => $emprise, 'gid' =>$gid , 'type'=> $type]
+            );
+            $mapviewer->searchObjet($request);
+          }
         }
-        // var_dump($value); echo " \n";
       }
+    }else {
+      echo "Searchobjet emprise= ".$emprise." , gid= ".$gid." , type= ".$type."\n";
+      $request = Request::create(
+        '/searchobjet',
+        'GET',
+        ['emprise' => $emprise, 'gid' =>$gid , 'type'=> $type]
+      );
+      $mapviewer->searchObjet($request);
     }
-
     // var_dump($mapviewer->getConfig_objet());
-    return 0;
   }
 }
