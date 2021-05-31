@@ -1753,7 +1753,7 @@ class MapviewerController extends ControllerBase
             else {
               $query= "SELECT type, id, text FROM searchemprise $search $territoire_filter $orderby";
             }
-            echo $query;
+            // echo $query;
             $query = $connection->query($query);
             $data=$query->fetchAll();
             $data_query = array();
