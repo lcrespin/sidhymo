@@ -2,7 +2,7 @@
  * Class resultable
  */
 var fichehandler = function(options){
-
+  var root=this;
     /*
      * Constructeur
      */
@@ -12,11 +12,11 @@ var fichehandler = function(options){
 
     /*
      * Créé dynamiquement la fiche à partir de "typeobjet"
-     * Exemple: 
+     * Exemple:
      */
-    this.createfiche = function(territoire, typeobjet, idobjet) {    
+    this.createfiche = function(territoire, typeobjet, idobjet) {
       // Afficher la fiche modal
-      jQuery('#modalinformation').modal('show') 
+      jQuery('#modalinformation').modal('show')
 
       // Charger le contenu de la fiche
       jQuery('#fiche_content').load("getfiche?territoire="+territoire+"&type="+typeobjet+"&code="+idobjet, function( response, status, xhr ) {
@@ -30,6 +30,12 @@ var fichehandler = function(options){
           // jQuery('#fiche_title').html(lbtype+" "+idobjet)
           if ( typeobjet == "stcarhyce" ) {
             make_stcarhyce(idobjet);
+          }
+          if ( typeobjet == "tgh" ) {
+            jQuery(".informationusra").click(function() {
+              fichehandler2 = new fichehandler();
+              fichehandler2.createfiche(territoire,'usra',jQuery(".informationusra").attr('id'));
+            });
           }
           if( status == "error" ) {
               jQuery('#fiche_content').html("Désolé, cette fiche n'a pas encore été crée...")
@@ -87,7 +93,7 @@ var fichehandler = function(options){
             break;
 
           // Si on active un onglet granulo
-          case "granulo": 
+          case "granulo":
             // On va chercher la granulo de l'opération
             jQuery("#granulo-"+id_tab[1]).load('getcarhycegranulo?operation='+idOperation, function( response, status, xhr ) {})
             break;
@@ -106,7 +112,7 @@ var fichehandler = function(options){
         }
       });
 
-      // Par défaut on active le premier onglet de la premiere opération 
+      // Par défaut on active le premier onglet de la premiere opération
       jQuery('a[data-toggle="tab"].active').trigger("shown.bs.tab");
 
     };
