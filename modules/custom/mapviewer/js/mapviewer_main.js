@@ -1,12 +1,10 @@
 /* https://joebuckle.me/quickie/jquery-create-object-oriented-classes-in-jquery/ */
 
 var config = {
-  //// TODO: A modifier avant de push
-    url_searchemprise : 'http://amihydro.oieau.fr/sidhymo/searchemprise',
+    url_searchemprise : 'searchemprise',
     url_wfsemprise : 'http://amihydro.oieau.fr/ows',
-    url_searchobjet : 'http://amihydro.oieau.fr/sidhymo/searchobjet',
-    //New
-    url_gettableterritoires : 'http://amihydro.oieau.fr/sidhymo/gettableterritoires',
+    url_searchobjet : 'searchobjet',
+    url_gettableterritoires : 'gettableterritoires',
     array_objets_etude  : [
                             {
                                 name : 'usra',

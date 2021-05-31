@@ -1729,7 +1729,10 @@ class MapviewerController extends ControllerBase
             if ($term == "") {
                 $orderby = " ORDER BY text ASC LIMIT $limit ";
             } else {
-                $search = " WHERE text @@ plainto_tsquery('$term') ";
+                // $search = " WHERE tsvectortext @@ to_tsquery('$term:*')";
+                $search = " WHERE tsvectortext @@ to_tsquery(concat(plainto_tsquery('$term')::text,':*'))  ";
+                // $search = " WHERE tsvectortext @@ to_tsquery('$term:*') ";
+                $orderby = " ORDER BY ts_rank_cd(tsvectortext, to_tsquery('$term:*'), 2) DESC ";
             }
             // on filtre par territoire
             $territoire_filter = " WHERE ";
@@ -1746,13 +1749,13 @@ class MapviewerController extends ControllerBase
                 $query.=" UNION";
               }
               $query = substr($query, 0, -5)." order by text";
-            }else {
-              $query= "SELECT type, id, text FROM searchemprise $search $territoire_filter order by text";
             }
-            // echo $query;
+            else {
+              $query= "SELECT type, id, text FROM searchemprise $search $territoire_filter $orderby";
+            }
+            echo $query;
             $query = $connection->query($query);
             $data=$query->fetchAll();
-
             $data_query = array();
             foreach ($this->config_emprise as $colonne => $val) {
               $data_query[$colonne]=array();
