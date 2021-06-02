@@ -1582,32 +1582,16 @@ class MapviewerController extends ControllerBase
 
         // Radier
         $json_radier = array();
-        $query       = $connection->query("SELECT * FROM ied.liste_granulo WHERE mgr_ope_id = '$operation'");
+        // $query       = $connection->query("SELECT * FROM ied.liste_granulo WHERE mgr_ope_id = '$operation'  order by y");
+        $query       = $connection->query("SELECT mgr_mesures,numero::integer as y FROM ied.liste_granulo WHERE mgr_ope_id = '$operation' and mgr_mesures!='' order by y");
+        
         if ($res = $query->fetchAll()) {
             // Pour chaque point
             foreach ($res as $point) {
                 $json_radier['radier']['x'][] = doubleval($point->mgr_mesures);
-                $json_radier['radier']['y'][] = doubleval($point->numero);
+                $json_radier['radier']['y'][] = doubleval($point->y);
             }
         }
-        //Tri croissant sur Axe y
-        $size=count($json_radier['radier']['y']);
-        foreach ($json_radier['radier']['x'] as $key => $value) {
-          for ($i=$key; $i <$size ; $i++) {
-            if($json_radier['radier']['y'][$i]<$json_radier['radier']['y'][$key]){
-
-              $tmp = $json_radier['radier']['x'][$key];
-              $json_radier['radier']['x'][$key] = $json_radier['radier']['x'][$i];
-              $json_radier['radier']['x'][$i] = $tmp;
-
-              $tmp = $json_radier['radier']['y'][$key];
-              $json_radier['radier']['y'][$key] = $json_radier['radier']['y'][$i];
-              $json_radier['radier']['y'][$i] = $tmp;
-
-            }
-          }
-        }
-
         $json_radier['radier']['uid']  = 'Acetone';
         $json_radier['radier']['type'] = 'scatter';
 
@@ -1732,7 +1716,9 @@ class MapviewerController extends ControllerBase
                 // $search = " WHERE tsvectortext @@ to_tsquery('$term:*')";
                 $search = " WHERE tsvectortext @@ to_tsquery(concat(plainto_tsquery('$term')::text,':*'))  ";
                 // $search = " WHERE tsvectortext @@ to_tsquery('$term:*') ";
-                $orderby = " ORDER BY ts_rank_cd(tsvectortext, to_tsquery('$term:*'), 2) DESC ";
+                // $orderby = " ORDER BY ts_rank_cd(tsvectortext, to_tsquery('$term:*'), 2) DESC ";
+                $orderby = " ORDER BY ts_rank_cd(tsvectortext, to_tsquery(concat(plainto_tsquery('$term')::text,':*')), 2) DESC ";
+
             }
             // on filtre par territoire
             $territoire_filter = " WHERE ";
@@ -1745,10 +1731,12 @@ class MapviewerController extends ControllerBase
             $connection = Database::getConnection('default', 'data_sidhymo');
             if ($search=="") {
               foreach ($this->config_emprise as $colonne => $val) {
+                if ($colonne != array_key_first($this->config_emprise)) {
+                  $query.=" UNION";
+                }
                 $query.= " (SELECT type, id, text FROM searchemprise $territoire_filter and type='$colonne' $orderby)";
-                $query.=" UNION";
               }
-              $query = substr($query, 0, -5)." order by text";
+              $query .= " order by text";
             }
             else {
               $query= "SELECT type, id, text FROM searchemprise $search $territoire_filter $orderby";
