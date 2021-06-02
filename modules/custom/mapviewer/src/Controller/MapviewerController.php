@@ -1582,8 +1582,9 @@ class MapviewerController extends ControllerBase
 
         // Radier
         $json_radier = array();
-        // $query       = $connection->query("SELECT * FROM ied.liste_granulo WHERE mgr_ope_id = '$operation'");
-        $query       = $connection->query("SELECT mgr_mesures,numero::integer  as y FROM ied.liste_granulo WHERE mgr_ope_id = '$operation' and numero::integer<=100 order by y");
+        // $query       = $connection->query("SELECT * FROM ied.liste_granulo WHERE mgr_ope_id = '$operation'  order by y");
+        $query       = $connection->query("SELECT mgr_mesures,numero::integer as y FROM ied.liste_granulo WHERE mgr_ope_id = '$operation' and mgr_mesures!='' order by y");
+        
         if ($res = $query->fetchAll()) {
             // Pour chaque point
             foreach ($res as $point) {
