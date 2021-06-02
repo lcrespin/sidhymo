@@ -17,11 +17,13 @@
     "require": {
         "composer/installers": "^1.9",
         "doctrine/common": "^2.7",
+        "drupal/bfd": "^2.65",
         "drupal/bootstrap_barrio": "^4.30",
         "drupal/core-composer-scaffold": "^9",
         "drupal/core-project-message": "^9",
         "drupal/core-recommended": "^9",
         "drupal/core-vendor-hardening": "^9",
+        "drupal/ctools": "^3.6",
         "drupal/devel": "^4.1",
         "drupal/pathauto": "^1.8",
         "drush/drush": "^10.3"
