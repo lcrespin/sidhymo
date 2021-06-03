@@ -52,7 +52,34 @@
   <a id="main-content" tabindex="-1"></a>
   {# link is in html.html.twig #}
   <div class="container-fluid">
-    {{ page.content }}
+    <div class="row">
+      <div class="col col-print-12">
+
+          <!-- CONTENT BEFORE -->
+          {% if page.content_before %}
+            <aside class="mt-2 mt-md-3" id="content-before">
+              {{ page.content_before }}
+            </aside>
+          {% endif %}
+          <!-- CONTENT BEFORE -->
+
+          <!-- MAIN CONTENT -->
+          <section class="py-2 py-md-3" id="page-content">    
+          {{ page.content }}
+          </section>
+          <!-- MAIN CONTENT -->
+
+          <!-- CONTENT AFTER -->
+          {% if page.content_after %}
+            <aside  id="content-after">
+              {{ page.content_after }}
+            </aside>
+          {% endif %}
+        </div>
+        <!-- CONTENT AFTER --> 
+
+      </div>
+    </div>
   </div>
 </main>
 <!-- MAIN -->
