@@ -20,11 +20,17 @@
     margin-top: 10px !important;
 }
 
+/* */
+#page-content {
+    padding-left: 0px !important;
+}
+
+
 /* Pour la carte */
 .map {
     position: absolute;
     height: 86vh;
-    width: 100%;
+    width: 99%;
 }
 
 .ol-zoom {
