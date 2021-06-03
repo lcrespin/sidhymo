@@ -42,48 +42,51 @@
  * @see html.html.twig
  */
 #}
-
-<!-- HEADER-->
-{% include '@bootstrap_for_drupal/includes/header.html.twig' %}
-<!-- HEADER-->
-
 <!-- MAIN -->
-<main role="main">
+<main role="main " class="d-print-block">
   <a id="main-content" tabindex="-1"></a>
   {# link is in html.html.twig #}
-  <div class="container-fluid">
+
+  <div class="container">
     <div class="row">
+
       <div class="col col-print-12">
 
-          <!-- CONTENT BEFORE -->
-          {% if page.content_before %}
-            <aside class="mt-2 mt-md-3" id="content-before">
-              {{ page.content_before }}
-            </aside>
-          {% endif %}
-          <!-- CONTENT BEFORE -->
-
           <!-- MAIN CONTENT -->
-          <section class="py-2 py-md-3" id="page-content">
-            {{ page.content }}
+          <section class="p-1 py-md-3" id="page-maintenance">
+            <div class="wrapper">
+            <header role="banner" id="header-maintenance">
+              {% if logo %}
+                <div class="wrapper-logo">
+                <a href="{{ front_page }}" title="{{ 'Home'|t }}" rel="home">
+                  <img src="{{ logo }}" alt="{{ 'Home'|t }}" class="site-logo"/>
+                </a>
+                  </div>
+              {% endif %}
+
+              {% if site_name or site_slogan %}
+                <div class="name-and-slogan">
+                  {% if site_name %}
+                   <h1 class="site-name">
+                     <a href="{{ front_page }}" title="{{ 'Home'|t }}" rel="home">{{ site_name }}</a>
+                   </h1>
+                  {% endif %}
+
+                  {% if site_slogan %}
+                    <div class="site-slogan">{{ site_slogan }}</div>
+                  {% endif %}
+                </div>{# /.name-and-slogan #}
+              {% endif %}
+
+              <div class="site-message p-3 rounded bg-gray-100">{{ page.content }}</div>
+            </header>
+
+            </div>
+
           </section>
           <!-- MAIN CONTENT -->
 
-          <!-- CONTENT AFTER -->
-          {% if page.content_after %}
-            <aside  id="content-after">
-              {{ page.content_after }}
-            </aside>
-          {% endif %}
-        </div>
-        <!-- CONTENT AFTER --> 
-
       </div>
     </div>
-  </div>
 </main>
 <!-- MAIN -->
-
-<!-- FOOTER -->
-{% include '@bootstrap_for_drupal/includes/footer.html.twig' %}
-<!-- FOOTER -->
