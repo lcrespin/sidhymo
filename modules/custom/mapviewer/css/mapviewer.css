@@ -399,3 +399,7 @@ pre#info {
     width: max-content;
     margin: auto;
 }
+
+#notifications {
+    width: 99%;
+}
