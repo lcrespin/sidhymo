@@ -2,7 +2,7 @@
 
 var config = {
     url_searchemprise : 'searchemprise',
-    url_wfsemprise : 'http://amihydro.oieau.fr/ows',
+    url_wfsemprise : 'https://sidhymo.recette.oieau.fr/ows',
     url_searchobjet : 'searchobjet',
     url_gettableterritoires : 'gettableterritoires',
     array_objets_etude  : [
