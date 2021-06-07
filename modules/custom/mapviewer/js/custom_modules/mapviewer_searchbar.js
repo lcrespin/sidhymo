@@ -214,16 +214,15 @@ var searchbar = function(searchbardiv, map_instance, resultable_instance){
     ////////
     this.showInfo = function (event) {
       var features = map.getFeaturesAtPixel(event.pixel);
-
       if (features.length == 0) {
-        localmap.getOverlay().setPosition(undefined);
+        map.getOverlayById(1).setPosition(undefined);
         return;
       }
 
       var properties = features[0].getProperties();
 
       if (properties.type==undefined) {
-        localmap.getOverlay().setPosition(undefined);
+        map.getOverlayById(1).setPosition(undefined);
         return;
       }
 
@@ -238,7 +237,7 @@ var searchbar = function(searchbardiv, map_instance, resultable_instance){
 
       var coordinate = event.coordinate;
       jQuery('#popup-info-content').html("<p>" + type + "</p><p class='text-center'>"+libelle+properties.gid+"</p>");
-      localmap.getOverlay().setPosition(coordinate);
+      map.getOverlayById(1).setPosition(coordinate);
     }
 
     /*
