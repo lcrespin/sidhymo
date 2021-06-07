@@ -383,21 +383,33 @@ a[id$='-tab'][id^='habitat']:focus:after {
   width:100%!important;
 }
 
-pre#info {
-    z-index: 1;
-    opacity: 0;
-    width: 100%;
-    position: fixed;
-    bottom: 0px;
-    transition: opacity 100ms ease-in 0s;
+#popup-info{
+    position: absolute;
+    background-color: #053b81;
+    opacity: 0.8;
+    padding: 15px;
+    border-radius: 10px;
+    bottom: 25px;
+    left: -50px;
+    min-width: 450px;
+    max-height: 330px;
+    color: white;
+}
+#popup-info:after, #popup-info:before {
+    top: 100%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
 }
 
-#info-text{
-    padding: 5px;
-    color: white;
-    background: rgba(0, 60, 136, 0.7);
-    width: max-content;
-    margin: auto;
+#popup-info:after {
+    border-top-color: #053b81;
+    border-width: 10px;
+    left: 48px;
+    margin-left: -10px;
 }
 
 #notifications {

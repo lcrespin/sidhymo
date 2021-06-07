@@ -169,6 +169,8 @@ var searchbar = function(searchbardiv, map_instance, resultable_instance){
 
                     // Ajouter au tableau HTML
                     localresultable.appendToResultTable(typeObjetEtude, data)
+
+                    //Popup info sur un element
                     map.on('pointermove', _this.showInfo);
                 }
                 else {
@@ -211,25 +213,32 @@ var searchbar = function(searchbardiv, map_instance, resultable_instance){
     // Affiche une bulle sur une properties de la map
     ////////
     this.showInfo = function (event) {
-      var info = jQuery('#info');
-      var text = jQuery('#info-text');
       var features = map.getFeaturesAtPixel(event.pixel);
-      if (features.length == 0) {
-        text.html("");
-        info.css('opacity',0);
-        return;
-      }
-      var properties = features[0].getProperties();
-      if (properties.type==undefined) {
-        text.html("");
-        info.css('opacity',0);
-        return;
-      }
-      properties.libelle==null? libelle="" : libelle=properties.libelle+" - "
-      type = properties.type.toUpperCase().split("_")[0];
 
-      text.html(type+" - "+libelle+properties.gid);
-      info.css('opacity',1);
+      if (features.length == 0) {
+        localmap.getOverlay().setPosition(undefined);
+        return;
+      }
+
+      var properties = features[0].getProperties();
+
+      if (properties.type==undefined) {
+        localmap.getOverlay().setPosition(undefined);
+        return;
+      }
+
+      properties.libelle==null? libelle="" : libelle=properties.libelle+" - "
+      type = properties.type.toLowerCase().split("_")[0];
+      for (var variable in config.array_objets_etude) {
+        if (config.array_objets_etude[variable].name==type) {
+          type=config.array_objets_etude[variable].libelle
+          break
+        }
+      }
+
+      var coordinate = event.coordinate;
+      jQuery('#popup-info-content').html("<p>" + type + "</p><p class='text-center'>"+libelle+properties.gid+"</p>");
+      localmap.getOverlay().setPosition(coordinate);
     }
 
     /*

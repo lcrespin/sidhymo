@@ -4,6 +4,13 @@
 var map = function(mapDiv, fichehandler_instance){
     var root = this;
     var localfichehandler = new Object();
+    var overlay = new ol.Overlay({
+      element: document.getElementById('popup-info'),
+      autoPan: true,
+      autoPanAnimation: {
+        duration: 250,
+      },
+    });
 
     this.territoire = "met";
 
@@ -362,6 +369,7 @@ var map = function(mapDiv, fichehandler_instance){
                 }),
 
             ],
+            overlays:[overlay],
             target: document.getElementById(mapDiv),
             view: new ol.View({
                 // center: [195678.79241, 5690971.749164],
@@ -372,6 +380,10 @@ var map = function(mapDiv, fichehandler_instance){
             })
         });
         selectedFeature = new ol.Feature();
+    }
+
+    this.getOverlay = function(){
+      return overlay
     }
 
     /*

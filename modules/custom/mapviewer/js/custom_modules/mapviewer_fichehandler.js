@@ -33,16 +33,26 @@ var fichehandler = function(options){
           }
           if ( typeobjet == "tgh" ) {
             jQuery(".informationusra").click(function() {
-              fichehandler2 = new fichehandler();
-              fichehandler2.createfiche(territoire,'usra',jQuery(".informationusra").attr('id'));
+              root.createfiche(territoire,'usra',jQuery(".informationusra").attr('id'));
+              //Chargement
+              createModal();
             });
           }
           if( status == "error" ) {
               jQuery('#fiche_content').html("Désolé, cette fiche n'a pas encore été crée...")
           }
       });
-
       jQuery('#modalinformation').on('hidden.bs.modal', function (e) {
+        createModal();
+      });
+    };
+
+    /*
+     *
+     * Modale chargement
+     *
+     */
+    var createModal = function() {
         jQuery('#fiche_content').html('<div class="modal-content h-100 w-100">\
                                         <div class="modal-header">\
                                             <h5 class="modal-title" id="fiche_title">\
@@ -63,10 +73,7 @@ var fichehandler = function(options){
                                             </div>\
                                         </div>\
                                     </div>')
-      })
-    };
-
-
+    }
     /*
      *
      * Complète les fiches carhyce

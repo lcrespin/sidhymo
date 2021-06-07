@@ -1132,7 +1132,7 @@ class MapviewerController extends ControllerBase
         );
 
         // Descriptif & indicateurs
-        $header                 = array("Objet d'étude", 'Valeur', 'Unité');
+        $header                 = array("Objet d'étude", 'Valeur');
         $rows_caracteristiques  = array();
         $rows_alteration        = array();
         $rows_classe_alteration = array();
@@ -1152,16 +1152,16 @@ class MapviewerController extends ControllerBase
             while ($row = $query->fetchAssoc()) {
                 foreach ($row as $col => $value) {
                     if (isset($conf_rows_caracteristiques[$col])) {
-                        $rows_caracteristiques[] = array($conf_rows_caracteristiques[$col]['libelle'], $value, $conf_rows_caracteristiques[$col]['unite']);
+                        $rows_caracteristiques[] = array($conf_rows_caracteristiques[$col]['libelle'], $value." ".$conf_rows_caracteristiques[$col]['unite'] );
                     }
                     if (isset($conf_rows_alteration[$col])) {
-                        $rows_alteration[] = array($conf_rows_alteration[$col]['libelle'], $value, $conf_rows_alteration[$col]['unite']);
+                        $rows_alteration[] = array($conf_rows_alteration[$col]['libelle'], $value." ".$conf_rows_alteration[$col]['unite']);
                     }
                     if (isset($conf_rows_classe_alteration[$col])) {
-                        $rows_classe_alteration[] = array($conf_rows_classe_alteration[$col]['libelle'], $value, $conf_rows_classe_alteration[$col]['unite']);
+                        $rows_classe_alteration[] = array($conf_rows_classe_alteration[$col]['libelle'], $value." ".$conf_rows_classe_alteration[$col]['unite']);
                     }
                     if (isset($conf_rows_elements_qualite[$col])) {
-                        $rows_elements_qualite[] = array($conf_rows_elements_qualite[$col]['libelle'], $value, $conf_rows_elements_qualite[$col]['unite']);
+                        $rows_elements_qualite[] = array($conf_rows_elements_qualite[$col]['libelle'], $value." ".$conf_rows_elements_qualite[$col]['unite']);
                     }
                 }
             }
@@ -1584,7 +1584,7 @@ class MapviewerController extends ControllerBase
         $json_radier = array();
         // $query       = $connection->query("SELECT * FROM ied.liste_granulo WHERE mgr_ope_id = '$operation'  order by y");
         $query       = $connection->query("SELECT mgr_mesures,numero::integer as y FROM ied.liste_granulo WHERE mgr_ope_id = '$operation' and mgr_mesures!='' order by y");
-        
+
         if ($res = $query->fetchAll()) {
             // Pour chaque point
             foreach ($res as $point) {

@@ -1,13 +1,5 @@
 {# mapviewer/templates/cartographie.html.twig #}
 
-<!-- TODO : C'est pas très beau -->
-<!-- <style type="text/css">
-*::-webkit-scrollbar {
-  width: 0px!important;
-}
-</style> -->
-
-
 <!-- notification -->
 <div id="notifications" class="position-absolute d-flex flex-column align-items-center" style="top: 25px;">
 
@@ -15,6 +7,12 @@
 
  <!-- Carte -->
 <div class="map" id="map"></div>
+
+<!-- popup -->
+<div id="popup-info">
+  <div id="popup-info-content"></div>
+</div>
+
 
 <!-- Container -->
 <div class="container-fluid">
