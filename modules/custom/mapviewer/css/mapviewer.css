@@ -16,6 +16,10 @@
     padding-left: 40px;
 }
 
+#info_chargement_body {
+    padding: 10px;
+}
+
 .form-item, .form-actions {
     margin-top: 10px !important;
 }
@@ -254,7 +258,7 @@
     width: 100%;
 }
 
-.modal-dialog {
+.modalfiche .modal-dialog  {
     height: 92% !important;
     max-width: 90% !important;
     width: 100%;

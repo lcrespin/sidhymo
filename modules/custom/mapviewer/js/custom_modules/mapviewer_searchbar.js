@@ -13,10 +13,12 @@ var searchbar = function(searchbardiv, map_instance, resultable_instance){
         localmap = map_instance;
         localresultable = resultable_instance;
         jQuery('#'+searchbardiv).select2({
+            placeholder: "Selectionnez une emprise géographique",    
+            language: "fr",
+            allowClear: true,
             ajax: {
                 url: config.url_searchemprise,
                 dataType: 'json',
-                allowClear: true,
                 data: function (params) {
                   var query = {
                     search: params.term,
@@ -25,7 +27,7 @@ var searchbar = function(searchbardiv, map_instance, resultable_instance){
 
                   // Query parameters will be ?search=[term]&type=public
                   return query;
-                }
+                },
                 // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
             }
         }).on('select2:select', function (e) {
@@ -69,9 +71,11 @@ var searchbar = function(searchbardiv, map_instance, resultable_instance){
      * Ajout de la layer de l'objet d'emprise selectionnée
      */
     var addEmprise = function(type, obj, layername) {
+        // On affiche la popup modal de chargement
+        jQuery('#info_chargement_body').html('<p style="text-align: center;">Votre carte hydromorphologique de <b>"'+ layername +'"</b> est en cours de construction.<br><progress></progress></p>');
+
         /* Init */
         map.getLayerGroup().getLayers().item(3).getLayers().push(new ol.layer.Vector())
-
         /* Geojson de l'emprise */
         emprise_wfsurl = config.url_wfsemprise+"?SERVICE=WFS&REQUEST=getFeature&VERSION=2.0.0&srsName=epsg%3A4326&TYPENAME=sidhymo%3A"+type+"&outputFormat=application%2Fjson&FILTER=%3CFilter%20xmlns%3D%22http%3A%2F%2Fwww.opengis.net%2Fogc%22%3E%3CPropertyIsEqualTo%3E%3CPropertyName%3Egid%3C%2FPropertyName%3E%3CLiteral%3E"+obj+"%3C%2FLiteral%3E%3C%2FPropertyIsEqualTo%3E%3C%2FFilter%3E";
         jQuery.getJSON(emprise_wfsurl, function(data) {
@@ -89,16 +93,18 @@ var searchbar = function(searchbardiv, map_instance, resultable_instance){
                 projection: 'EPSG:4326',
                 style: localmap.styles.yellowStyle
             });
-
+            
+            // Zoomer
+            map.getView().fit(vectorSourceEmprise.getExtent(), { duration: 1000 } );
+            
             // Ajouter au groupe interactif la nouvelle layer
             map.getLayerGroup().getLayers().item(3).getLayers().removeAt(0);
             map.getLayerGroup().getLayers().item(3).getLayers().insertAt(0, vectorEmprise)
 
-            // Zoomer
-            map.getView().fit(vectorSourceEmprise.getExtent(), { duration: 1000 } );
         });
 
     }
+
 
     /*
      * Ajout des objets d'étude qui recoupent l'emprise selectionnée
@@ -110,39 +116,45 @@ var searchbar = function(searchbardiv, map_instance, resultable_instance){
             map.getLayerGroup().getLayers().item(3).getLayers().push(new ol.layer.Vector())
         });
 
+       
         /* Pour chaque objet du tableau de configuration array_objets_etude */
+        var countLoading = 0;
         config.array_objets_etude.forEach(function(typeObjetEtude, index){
             /* Récupérer et affiche le geojson des objets */
             objetdetude_url = config.url_searchobjet+"?emprise="+typeEmprise+"&gid="+cdEmprise+"&type="+typeObjetEtude.name;
 
             /* Ajouter une notification de chargement */
-            var notif = _this.addNotification('<b>Chargement des ' + typeObjetEtude.libelle + ' en cours...</b>',
-                                              typeObjetEtude.name,
-                                              typeObjetEtude.libelle,
-                                              typeObjetEtude.name+'.png');
-
+            // var notif = _this.addNotification('<b>Chargement des ' + typeObjetEtude.libelle + ' en cours...</b>',
+            //                                   typeObjetEtude.name,
+            //                                   typeObjetEtude.libelle,
+            //                                   typeObjetEtude.name+'.png');
+            jQuery('#info_chargement').modal();
+            jQuery('#info_chargement_body').append('<span><img src="modules/custom/mapviewer/images/' + typeObjetEtude.name+ '.png" width="20" style="margin-right: 7px;"/> ' + typeObjetEtude.libelle + '<span id="encours_' + typeObjetEtude.name + '"> en cours de chargement...</span></span>');
+            
+            countLoading++; // Compteur de couches chargées
             jQuery.getJSON(objetdetude_url, function(data) {
+
                 if(data && data.features) {
                     // S'il y a plus de 100 objets, on ne les affiche pas par défaut
                     // Pour ne pas faire ramer la carte
                     visibility = true
-                    if(data.features.length > 1000) {
-                        // Le préciser dans une nouvelle notif
-                        _this.addNotification('<b>Il y a plus de 1000 ' + typeObjetEtude.libelle + ' dans cette emprise, pour ne pas ralentir l\'outil cartographique la couche a donc été masquée par défaut.\
-                                                Utilisez l\'outil de gestion de couche <img src="modules/custom/mapviewer/images/layerswit.png" width="20" style="margin: 2px;"/>\
-                                                pour l\'afficher.</b>',
-                                                typeObjetEtude.name+'_warn',
-                                                typeObjetEtude.libelle,
-                                                typeObjetEtude.name+'.png',
-                                                false,
-                                                true);
-                        visibility = false
-                    }
+                    // if(data.features.length > 1000) {
+                    //     // Le préciser dans une nouvelle notif
+                    //     _this.addNotification('<b>Il y a plus de 1000 ' + typeObjetEtude.libelle + ' dans cette emprise, pour ne pas ralentir l\'outil cartographique la couche a donc été masquée par défaut.\
+                    //                             Utilisez l\'outil de gestion de couche <img src="modules/custom/mapviewer/images/layerswit.png" width="20" style="margin: 2px;"/>\
+                    //                             pour l\'afficher.</b>',
+                    //                             typeObjetEtude.name+'_warn',
+                    //                             typeObjetEtude.libelle,
+                    //                             typeObjetEtude.name+'.png',
+                    //                             false,
+                    //                             true);
+                    //     visibility = false
+                    // }
 
-                    // Supprimer la notif de chargement
-                    notif.hide(3000, function() {
-                        notif.remove();
-                    });
+                    // // Supprimer la notif de chargement
+                    // notif.hide(3000, function() {
+                    //     notif.remove();
+                    // });
 
 
                     // Afficher sur la carte
@@ -172,12 +184,19 @@ var searchbar = function(searchbardiv, map_instance, resultable_instance){
 
                     //Popup info sur un element
                     map.on('pointermove', _this.showInfo);
+
                 }
                 else {
-                    notif.hide(1000, function() {
-                        notif.remove();
-                    });
+                    // notif.hide(1000, function() {
+                    //     notif.remove();
+                    // });
                     // console.log("Pas de "+type+ " trouvé")
+                }
+
+                jQuery('#encours_'+typeObjetEtude.name).html(' <b>chargé</b>.')
+                countLoading--; // Compteur de couches chargées
+                if (countLoading == 0) {
+                    jQuery('#info_chargement').modal('hide')
                 }
             });
 
