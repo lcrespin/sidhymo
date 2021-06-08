@@ -16,10 +16,6 @@
     padding-left: 40px;
 }
 
-#info_chargement_body {
-    padding: 10px;
-}
-
 .form-item, .form-actions {
     margin-top: 10px !important;
 }
@@ -258,7 +254,7 @@
     width: 100%;
 }
 
-.modalfiche .modal-dialog  {
+.modal-dialog {
     height: 92% !important;
     max-width: 90% !important;
     width: 100%;
@@ -355,7 +351,10 @@
   padding-bottom: 25px!important;
 } */
 
-
+/* *::-webkit-scrollbar {
+  width: 0px!important;
+} */
+body::-webkit-scrollbar{ display: none; }
 .searchbox{
   margin-bottom: 70px;
 }
