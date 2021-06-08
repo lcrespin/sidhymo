@@ -351,9 +351,6 @@
   padding-bottom: 25px!important;
 } */
 
-*::-webkit-scrollbar {
-  width: 0px!important;
-}
 
 .searchbox{
   margin-bottom: 70px;
