@@ -79,14 +79,14 @@ class MapviewerController extends ControllerBase
     );
 
     private $config_emprise = array(
-        'hydroecoregion1'  => array(
-            "code"          => "cdher1",
-            "libelle"       => "nomher1",
-            "libelle_objet" => "Hydro-ecorégion de niveau 1"),
-        'hydroecoregion2'  => array(
-            "code"          => "cdher2",
-            "libelle"       => "nomher2",
-            "libelle_objet" => "Hydro-ecorégion de niveau 2"),
+        // 'hydroecoregion1'  => array(
+        //     "code"          => "cdher1",
+        //     "libelle"       => "nomher1",
+        //     "libelle_objet" => "Hydro-ecorégion de niveau 1"),
+        // 'hydroecoregion2'  => array(
+        //     "code"          => "cdher2",
+        //     "libelle"       => "nomher2",
+        //     "libelle_objet" => "Hydro-ecorégion de niveau 2"),
         'regionhydro'      => array(
             "code"          => "cdregionhy",
             "libelle"       => "lbregionhy",
