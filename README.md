@@ -78,7 +78,7 @@ vendor/bin/drush mapviewer
 
 ### Configurer un drush
 
-Pour créer de nouvelles fonctions allaient dans le fichier
+Pour créer de nouvelles fonctions aller dans le fichier
 ```sh
 modules/custom/mapviewer/src/Commands/MapviewerCommands.php
 ```
